@@ -7,4 +7,5 @@
  */
 module turistickaAgencija {
 	requires java.desktop;
+	requires java.logging;
 }
