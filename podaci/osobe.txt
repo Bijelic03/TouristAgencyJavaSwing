@@ -1,3 +1,2 @@
-001|Dragan|Bijelic|060|1234|True|Adresa|dr|123|Administrator|true
-002|Petar|Peric|0645|1236|True|Adresa06|Petar1|Petar123|Turista|true
-3016493561922801044|a|a|a|a|true|a|a|[C@7efdd4ba|Administrator|true
+1|Dragan|Bijelic|060|1234|true|Adresa|dr|123|Administrator|true
+2|Petar|Peric|0645|1236|true|Adresa06|Petar1|Petar123|Turista|true

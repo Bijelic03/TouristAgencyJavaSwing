@@ -105,7 +105,7 @@ public class Osoba {
 		this.username = username;
 		this.password = password;
 		this.uloga = uloga;
-		this.setAktivnost(aktivnost);
+		this.aktivnost = aktivnost;
 	}
 
 	private long id;
