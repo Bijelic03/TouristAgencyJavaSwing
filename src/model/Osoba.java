@@ -108,6 +108,10 @@ public class Osoba {
 		this.aktivnost = aktivnost;
 	}
 
+	public Osoba() {
+		// TODO Auto-generated constructor stub
+	}
+
 	private long id;
 	private String ime;
 	private String prezime;

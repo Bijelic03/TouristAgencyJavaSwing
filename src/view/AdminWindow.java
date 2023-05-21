@@ -1,8 +1,11 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
+import java.util.function.Function;
 
 import view.TableGenerator;
 import view.Register;
@@ -11,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import model.Osoba;
 import service.UpravljanjeTuristickimAgencijama;
 import service.UpravljanjeKorisnicima;
 
@@ -26,13 +30,16 @@ public class AdminWindow extends JFrame {
 	private JButton editUser = new JButton("Izmeni korisnika");
 
 	private JButton delUser = new JButton("Obrisi korisnika");
+	
+	private JButton logOff = new JButton("Odjavi se");
+
 
 	private JPanel southButtons = new JPanel();
 
-	private Register register = new Register();
+	private Register register = null;
 	
-	private Edit edit = new Edit();
-
+	private Edit edit;
+	
 	private UpravljanjeKorisnicima upravljanjeKorisnicima = new UpravljanjeKorisnicima();
 
 	String[][] data = { { "Kundan Kumar Jha", "4031", "CSE" }, { "Anand Jha", "6014", "IT" } };
@@ -57,12 +64,25 @@ public class AdminWindow extends JFrame {
 		southButtons.add(addUser);
 		southButtons.add(editUser);
 		southButtons.add(delUser);
+		southButtons.add(logOff);
+
 		add(southButtons, BorderLayout.SOUTH);
 
+		logOff.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+		        dispose();
+				LoginWindow loginWindow = new LoginWindow();
+				loginWindow.setVisible(true);
+			}
+		});
+		
+		
+		
 		addUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (register == null) {
-					register = new Register();
+					register = new Register(korisniciTable);
+
 				}
 				register.setVisible(true);
 			//	korisniciTable.addRow(korisniciColumnNames);
@@ -70,13 +90,15 @@ public class AdminWindow extends JFrame {
 		});
 		
 		editUser.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (edit == null) {
-					// Prosledi korisniciTable objekat u konstruktoru Edit klase
-					edit = new Edit(korisniciTable);
-				}
-				edit.setVisible(true);
-			}
+		    public void actionPerformed(ActionEvent e) {
+		        if (korisniciTable.selectedRow != -1) {
+		            long selectedId =korisniciTable.getIdValueFromRow();
+		            Osoba selectedOsoba = upravljanjeKorisnicima.getKorisnikById(selectedId);
+		            
+		            edit = new Edit(korisniciTable, selectedOsoba);
+		            edit.setVisible(true);
+		        }
+		    }
 		});
 
 		delUser.addActionListener(new ActionListener() {
@@ -86,7 +108,7 @@ public class AdminWindow extends JFrame {
 					int choice = JOptionPane.showConfirmDialog(null, "Da li ste sigurni?", "",
 							JOptionPane.YES_NO_OPTION);
 					if (choice == JOptionPane.YES_OPTION) {
-						upravljanjeKorisnicima.editKorisnika(korisniciTable.selectedRow);
+						upravljanjeKorisnicima.disableKorisnik(korisniciTable.getIdValueFromRow());
 						korisniciTable.removeSelectedRow();
 					} 
 

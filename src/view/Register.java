@@ -1,8 +1,10 @@
 package view;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.UUID;
+import java.util.function.Function;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -47,12 +49,15 @@ public class Register extends JDialog {
 	private JButton btnOdustani;
 	private boolean boolPol;
 	private Uloga ulogaEnum;
-	public Register() {
+	private TableGenerator korisniciTable;
+	public Register(TableGenerator korisniciTable) {
+		this.korisniciTable = korisniciTable;
 		initComponents();
 	}
 	UpravljanjeKorisnicima upravljanjeKorisnicima = new UpravljanjeKorisnicima();
 	
 	private void initComponents() {
+
         lblUsername = new JLabel("Korisničko ime:");
         lblIme = new JLabel("Ime:");
         lblPrezime = new JLabel("Prezime:");
@@ -85,15 +90,22 @@ public class Register extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+                clearInputs();
+
 				dispose();
 
 			}
 		});
         
-        btnRegistracija.addActionListener(e -> {
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                clearInputs();
+            }
+        });        btnRegistracija.addActionListener(e -> {
             if (validateFields() == 1) {
                 // Perform registration process
-                JOptionPane.showMessageDialog(this, "Sifre se ne poklapaju!");
+                JOptionPane.showMessageDialog(this, "Šifre se ne poklapaju!");
             } else if(validateFields() == 2) {
                 JOptionPane.showMessageDialog(this, "Niste popunili sva polja!");
             }
@@ -123,15 +135,17 @@ public class Register extends JDialog {
                 }
                 long id = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
 
-                upravljanjeKorisnicima.dodajKorisnika(new Osoba(id, txtIme.getText(), txtPrezime.getText(), txtBrojTelefona.getText(), txtJMBG.getText(), boolPol, txtAdresa.getText(), txtUsername.getText(), txtSifra.getPassword().toString(), ulogaEnum, true));
-                
-                
+                upravljanjeKorisnicima.dodajKorisnika(new Osoba(id, txtIme.getText(), txtPrezime.getText(), txtBrojTelefona.getText(), txtJMBG.getText(), boolPol, txtAdresa.getText(), txtUsername.getText(), new String(txtSifra.getPassword()), ulogaEnum, true));
+                String[] newRowData = {Long.toString(id), txtIme.getText(), txtPrezime.getText(), txtBrojTelefona.getText(), txtJMBG.getText(), Boolean.toString(boolPol), txtAdresa.getText(), txtUsername.getText(), new String(txtSifra.getPassword()), ulogaEnum.name()};
+                UpravljanjeKorisnicima.ucitajKorisnike();
+               korisniciTable.refreshTableData(UpravljanjeKorisnicima.getPodaciOKorisnicimaTabela());
+                clearInputs();
                 dispose();
                 
             }
         });
         
-        
+
         
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -220,6 +234,17 @@ public class Register extends JDialog {
                                         );
                                         pack();
     }
+	
+    private void clearInputs() {
+        txtIme.setText("");
+        txtPrezime.setText("");
+        txtBrojTelefona.setText("");
+        txtJMBG.setText("");
+        txtAdresa.setText("");
+        txtUsername.setText("");
+        txtSifra.setText("");
+        txtPonoviSifru.setText("");
+    }
 
 	private int validateFields() {
 
@@ -243,26 +268,5 @@ public class Register extends JDialog {
 		return 3; // All fields are filled
 	}
 
-	public static void main(String[] args) {
-		JFrame parent = new JFrame();
-		parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		parent.setSize(400, 300);
 
-		JButton btnOpenRegister = new JButton("Otvaranje dijaloga za registraciju");
-		btnOpenRegister.addActionListener(e -> {
-			Register dialog = new Register();
-			dialog.setVisible(true);
-		});
-
-		GroupLayout layout = new GroupLayout(parent.getContentPane());
-		parent.getContentPane().setLayout(layout);
-		layout.setHorizontalGroup(
-				layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup()
-						.addGap(130, 130, 130).addComponent(btnOpenRegister).addContainerGap(141, Short.MAX_VALUE)));
-		layout.setVerticalGroup(
-				layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup()
-						.addGap(114, 114, 114).addComponent(btnOpenRegister).addContainerGap(153, Short.MAX_VALUE)));
-
-		parent.setVisible(true);
-	}
 }

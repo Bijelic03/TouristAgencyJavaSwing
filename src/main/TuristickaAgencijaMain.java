@@ -8,7 +8,6 @@ import service.UpravljanjeTuristickimAgencijama;
 import view.LoginWindow;
 
 public class TuristickaAgencijaMain {
-
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		UpravljanjeKorisnicima UpravljanjeKorisnicima = new UpravljanjeKorisnicima();

@@ -1,2 +1,4 @@
-1|Dragan|Bijelic|060|1234|true|Adresa|dr|123|Administrator|true
-2|Petar|Peric|0645|1236|true|Adresa06|Petar1|Petar123|Turista|true
+1683899734588344172|Dragan|Bijelic|060|1234|false|Adresa|dr|123|Administrator|true
+3430017928036540984|Petar|Peric|0645|1236|true|Adresa06|Petar1|Petar123|Turista|true
+2083899734588344172|Aleksa|Aleksic|545393|54354257|false|ddayadf|Aleksa1|aa|Administrator|true
+3438017727036540984|a|a|a|a|true|a|d|a|Turista|true
