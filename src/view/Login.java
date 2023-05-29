@@ -55,8 +55,10 @@ public class Login extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				String usernameValue = usernameInput.getText();
 				String passwordValue = passwordInput.getText();
+				
 				UpravljanjeKorisnicima.ucitajKorisnike();
-				trenutnaOsoba = UpravljanjeKorisnicima.Login(usernameValue, passwordValue);
+				trenutnaOsoba = UpravljanjeKorisnicima.login(usernameValue, passwordValue);
+				
 				if (trenutnaOsoba != null) {
 					zatvoriProzore();
 

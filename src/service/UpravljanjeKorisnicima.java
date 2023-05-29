@@ -12,17 +12,16 @@ import model.Osoba;
 import model.Uloga;
 
 public class UpravljanjeKorisnicima {
-	private static ArrayList<Osoba> Osobe;
-	private Long currentId;
-
-	public UpravljanjeKorisnicima() {
-		Osobe = new ArrayList<Osoba>();
-	}
+	
+	private static ArrayList<Osoba> osobe;
+	
+	private static Long currentId;
 
 	public static void ucitajKorisnike() {
+		osobe = new ArrayList<Osoba>();
 		try {
 			File osobeFile = new File("podaci/osobe.txt");
-			Osobe.clear();
+			osobe.clear();
 			try (BufferedReader reader = new BufferedReader(new FileReader(osobeFile))) {
 				String line;
 				while ((line = reader.readLine()) != null) {
@@ -44,7 +43,7 @@ public class UpravljanjeKorisnicima {
 					boolean aktivnostBoolean = Boolean.parseBoolean(aktivnost);
 					Osoba osoba = new Osoba(idLong, ime, prezime, brojTelefona, jmbg, polBoolean, adresa, username,
 							sifra, uloga, aktivnostBoolean);
-					Osobe.add(osoba);
+					osobe.add(osoba);
 				}
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
@@ -54,8 +53,8 @@ public class UpravljanjeKorisnicima {
 		}
 	}
 
-	public static Osoba Login(String korisnickoIme, String sifra) {
-		for (Osoba osoba : Osobe) {
+	public static Osoba login(String korisnickoIme, String sifra) {
+		for (Osoba osoba : osobe) {
 			if (osoba.getUsername().equals(korisnickoIme) && osoba.getPassword().equals(sifra)) {
 				if (osoba.getAktivnost()) {
 					return osoba;
@@ -66,18 +65,18 @@ public class UpravljanjeKorisnicima {
 	}
 
 	public static ArrayList<Osoba> getKorisnici() {
-		return Osobe;
+		return osobe;
 	}
 
 	public void setKorisnici(ArrayList<Osoba> korisnici) {
-		Osobe = korisnici;
+		osobe = korisnici;
 	}
 
 	public static String[][] getPodaciOKorisnicima() {
-		String[][] podaci = new String[Osobe.size()][11];
+		String[][] podaci = new String[osobe.size()][11];
 
-		for (int i = 0; i < Osobe.size(); i++) {
-			Osoba osoba = Osobe.get(i);
+		for (int i = 0; i < osobe.size(); i++) {
+			Osoba osoba = osobe.get(i);
 			podaci[i][0] = osoba.getId() + "";
 			podaci[i][1] = osoba.getIme();
 			podaci[i][2] = osoba.getPrezime();
@@ -100,7 +99,7 @@ public class UpravljanjeKorisnicima {
 
 	public static String[][] getPodaciOKorisnicimaTabela() {
 		int aktivneOsobe = 0;
-		for (Osoba osoba : Osobe) {
+		for (Osoba osoba : osobe) {
 			if (osoba.getAktivnost()) {
 				aktivneOsobe++;
 			}
@@ -109,7 +108,7 @@ public class UpravljanjeKorisnicima {
 		String[][] podaci = new String[aktivneOsobe][10];
 		int indeks = 0;
 
-		for (Osoba osoba : Osobe) {
+		for (Osoba osoba : osobe) {
 			if (osoba.getAktivnost()) {
 				podaci[indeks][0] = osoba.getId() + "";
 				podaci[indeks][1] = osoba.getIme();
@@ -132,7 +131,7 @@ public class UpravljanjeKorisnicima {
 		return podaci;
 	}
 
-	public void dodajKorisnika(Osoba osoba) {
+	public static void dodajKorisnika(Osoba osoba) {
 		try {
 			File osobeFile = new File("podaci/osobe.txt");
 			BufferedWriter writer = new BufferedWriter(new FileWriter(osobeFile, true));
@@ -141,15 +140,15 @@ public class UpravljanjeKorisnicima {
 					+ "|" + osoba.getPassword() + "|" + osoba.getUloga() + "|" + osoba.getAktivnost());
 			writer.newLine();
 			writer.close();
-			Osobe.add(osoba);
+			osobe.add(osoba);
 			String[][] podaci = getPodaciOKorisnicima();
 		} catch (IOException e) {
 			System.out.println("Greska prilikom upisivanja korisnika u datoteku: " + e.getMessage());
 		}
 	}
 
-	public Osoba getKorisnikById(long id) {
-		for (Osoba osoba : Osobe) {
+	public static Osoba getKorisnikById(long id) {
+		for (Osoba osoba : osobe) {
 			if (osoba.getId() == id) {
 				return osoba;
 			}
@@ -157,8 +156,8 @@ public class UpravljanjeKorisnicima {
 		return null;
 	}
 
-	public void disableKorisnik(Long id) {
-		 Osoba osobaZaIzmenu = getKorisnikById(id);
+	public static void disableKorisnik(Long id) {
+		Osoba osobaZaIzmenu = getKorisnikById(id);
 		osobaZaIzmenu.setAktivnost(false);
 		System.out.println("aktivnost promenjena na false");
 		try {
@@ -203,7 +202,7 @@ public class UpravljanjeKorisnicima {
 		}
 	}
 
-	public void editKorisnika(Osoba osoba) {
+	public static void editKorisnika(Osoba osoba) {
         Osoba osobaZaIzmenu = osoba;
 
         try {

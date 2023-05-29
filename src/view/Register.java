@@ -24,40 +24,61 @@ import service.UpravljanjeKorisnicima;
 public class Register extends JDialog {
 
 	private JLabel lblUsername;
+	
 	private JLabel lblIme;
+	
 	private JLabel lblPrezime;
+	
 	private JLabel lblBrojTelefona;
+	
 	private JLabel lblJMBG;
+	
 	private JLabel lblPol;
+	
 	private JLabel lblAdresa;
+	
 	private JLabel lblSifra;
+	
 	private JLabel lblPonoviSifru;
+	
 	private JLabel lblUloga;
 
 	private JTextField txtUsername;
+	
 	private JTextField txtIme;
+	
 	private JTextField txtPrezime;
+	
 	private JTextField txtBrojTelefona;
+	
 	private JTextField txtJMBG;
+	
 	private JComboBox<String> cmbPol;
+	
 	private JTextField txtAdresa;
+	
 	private JComboBox<String> cmbUloga;
 	
 	private JPasswordField txtSifra;
+	
 	private JPasswordField txtPonoviSifru;
+	
 	private JButton btnRegistracija;
+	
 	private JButton btnOdustani;
+	
 	private boolean boolPol;
+	
 	private Uloga ulogaEnum;
+	
 	private TableGenerator korisniciTable;
+	
 	public Register(TableGenerator korisniciTable) {
 		this.korisniciTable = korisniciTable;
 		initComponents();
 	}
-	UpravljanjeKorisnicima upravljanjeKorisnicima = new UpravljanjeKorisnicima();
 	
 	private void initComponents() {
-
         lblUsername = new JLabel("Korisničko ime:");
         lblIme = new JLabel("Ime:");
         lblPrezime = new JLabel("Prezime:");
@@ -91,7 +112,6 @@ public class Register extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
                 clearInputs();
-
 				dispose();
 
 			}
@@ -102,43 +122,39 @@ public class Register extends JDialog {
             public void windowClosing(WindowEvent e) {
                 clearInputs();
             }
-        });        btnRegistracija.addActionListener(e -> {
+        }); 
+        
+        btnRegistracija.addActionListener(e -> {
             if (validateFields() == 1) {
                 // Perform registration process
                 JOptionPane.showMessageDialog(this, "Šifre se ne poklapaju!");
             } else if(validateFields() == 2) {
                 JOptionPane.showMessageDialog(this, "Niste popunili sva polja!");
-            }
-            else if(validateFields() == 3) {
+            } else if(validateFields() == 3) {
                 JOptionPane.showMessageDialog(this, "Uspesno ste popunili registraciju!");
                 String pol = cmbPol.getSelectedItem().toString();
 
-
-                
-                
                 if (pol.equals("Muški")) {
                     boolPol = true;
-                }
-                else {
+                } else {
                     boolPol = false;
                 }
+                
                 String uloga = cmbUloga.getSelectedItem().toString();
-
                 if (uloga.equals("Turisticki agent")) {
                     ulogaEnum = Uloga.TuristickiAgent;
-                }
-                else if (uloga.equals("Administrator")) {
+                } else if (uloga.equals("Administrator")) {
                     ulogaEnum = Uloga.Administrator;
-                }
-                else {
+                } else {
                     ulogaEnum = Uloga.Turista;
                 }
+                
                 long id = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
-
-                upravljanjeKorisnicima.dodajKorisnika(new Osoba(id, txtIme.getText(), txtPrezime.getText(), txtBrojTelefona.getText(), txtJMBG.getText(), boolPol, txtAdresa.getText(), txtUsername.getText(), new String(txtSifra.getPassword()), ulogaEnum, true));
-                String[] newRowData = {Long.toString(id), txtIme.getText(), txtPrezime.getText(), txtBrojTelefona.getText(), txtJMBG.getText(), Boolean.toString(boolPol), txtAdresa.getText(), txtUsername.getText(), new String(txtSifra.getPassword()), ulogaEnum.name()};
+                UpravljanjeKorisnicima.dodajKorisnika(new Osoba(id, txtIme.getText(), txtPrezime.getText(), txtBrojTelefona.getText(), txtJMBG.getText(), 
+                		boolPol, txtAdresa.getText(), txtUsername.getText(), new String(txtSifra.getPassword()), ulogaEnum, true));
+              
                 UpravljanjeKorisnicima.ucitajKorisnike();
-               korisniciTable.refreshTableData(UpravljanjeKorisnicima.getPodaciOKorisnicimaTabela());
+                korisniciTable.refreshTableData(UpravljanjeKorisnicima.getPodaciOKorisnicimaTabela());
                 clearInputs();
                 dispose();
                 
@@ -146,7 +162,6 @@ public class Register extends JDialog {
         });
         
 
-        
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -247,19 +262,19 @@ public class Register extends JDialog {
     }
 
 	private int validateFields() {
-
 		String username = txtUsername.getText();
 		String ime = txtIme.getText();
 		String prezime = txtPrezime.getText();
 		String brojTelefona = txtBrojTelefona.getText();
 		String jmbg = txtJMBG.getText();
 		String adresa = txtAdresa.getText();
-		
 		String sifra = new String(txtSifra.getPassword());
 		String ponoviSifru = new String(txtPonoviSifru.getPassword());
+		
 		if (!sifra.equals(ponoviSifru)) {
 			return 1;
 		}
+		
 		if (username.isEmpty() || ime.isEmpty() || prezime.isEmpty() || brojTelefona.isEmpty() || jmbg.isEmpty()
 				|| adresa.isEmpty() || sifra.isEmpty() || ponoviSifru.isEmpty()) {
 			return 2; // One or more fields are empty

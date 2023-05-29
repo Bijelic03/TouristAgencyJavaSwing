@@ -15,14 +15,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import model.Osoba;
-import service.UpravljanjeTuristickimAgencijama;
 import service.UpravljanjeKorisnicima;
 
 public class AdminWindow extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1393812183206771422L;
 
 	private JButton addUser = new JButton("Dodaj korisnika");
@@ -33,18 +29,13 @@ public class AdminWindow extends JFrame {
 	
 	private JButton logOff = new JButton("Odjavi se");
 
-
 	private JPanel southButtons = new JPanel();
 
 	private Register register = null;
 	
 	private Edit edit;
 	
-	private UpravljanjeKorisnicima upravljanjeKorisnicima = new UpravljanjeKorisnicima();
-
-	String[][] data = { { "Kundan Kumar Jha", "4031", "CSE" }, { "Anand Jha", "6014", "IT" } };
-
-	String[] korisniciColumnNames = { "Id", "Ime", "Prezime", "Broj telefona", "Jmbg", "Pol", "Adresa", "Username",
+	private String[] korisniciColumnNames = { "Id", "Ime", "Prezime", "Broj telefona", "Jmbg", "Pol", "Adresa", "Username",
 			"Sifra", "Uloga" };
 
 	public AdminWindow() {
@@ -57,8 +48,8 @@ public class AdminWindow extends JFrame {
 	}
 
 	private void initGUI() {
-		upravljanjeKorisnicima.ucitajKorisnike();
-		TableGenerator korisniciTable = new TableGenerator(upravljanjeKorisnicima.getPodaciOKorisnicimaTabela(),korisniciColumnNames);
+		UpravljanjeKorisnicima.ucitajKorisnike();
+		TableGenerator korisniciTable = new TableGenerator(UpravljanjeKorisnicima.getPodaciOKorisnicimaTabela(), korisniciColumnNames);
 
 		add(korisniciTable, BorderLayout.CENTER);
 		southButtons.add(addUser);
@@ -85,7 +76,6 @@ public class AdminWindow extends JFrame {
 
 				}
 				register.setVisible(true);
-			//	korisniciTable.addRow(korisniciColumnNames);
 			}
 		});
 		
@@ -93,7 +83,7 @@ public class AdminWindow extends JFrame {
 		    public void actionPerformed(ActionEvent e) {
 		        if (korisniciTable.selectedRow != -1) {
 		            long selectedId =korisniciTable.getIdValueFromRow();
-		            Osoba selectedOsoba = upravljanjeKorisnicima.getKorisnikById(selectedId);
+		            Osoba selectedOsoba = UpravljanjeKorisnicima.getKorisnikById(selectedId);
 		            
 		            edit = new Edit(korisniciTable, selectedOsoba);
 		            edit.setVisible(true);
@@ -108,7 +98,7 @@ public class AdminWindow extends JFrame {
 					int choice = JOptionPane.showConfirmDialog(null, "Da li ste sigurni?", "",
 							JOptionPane.YES_NO_OPTION);
 					if (choice == JOptionPane.YES_OPTION) {
-						upravljanjeKorisnicima.disableKorisnik(korisniciTable.getIdValueFromRow());
+						UpravljanjeKorisnicima.disableKorisnik(korisniciTable.getIdValueFromRow());
 						korisniciTable.removeSelectedRow();
 					} 
 

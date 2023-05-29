@@ -11,11 +11,17 @@ import javax.swing.table.DefaultTableModel;
 import java.util.Vector;
 
 public class TableGenerator extends JScrollPane {
+	
     private JTable table;
+    
     private DefaultTableModel model;
+    
     protected int selectedRow = -1;
+    
     private int selectedColumn = -1;
+    
     private String[] columnNames;
+    
     private Vector<Vector<String>> data;
 
     public TableGenerator(String[][] data, String[] columnNames) {
@@ -36,11 +42,9 @@ public class TableGenerator extends JScrollPane {
                                 if (newSelectedRow != selectedRow) {
                                     selectedRow = newSelectedRow;
                                     selectedColumn = newSelectedColumn;
-                                    System.out.println(selectedRow);
                                     int selectedRow = table.getSelectedRow();
                                     int rowCount = table.getRowCount();
-                                    System.out.println("Selected row: " + selectedRow);
-                                    System.out.println("Row count: " + rowCount);
+
                                 }
                             } else {
                                 selectedRow = -1;

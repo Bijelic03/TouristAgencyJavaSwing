@@ -3,6 +3,18 @@ package model;
 import java.time.LocalDate;
 
 public class Rezervacija {
+	
+	private long id;
+	
+	private long turistaId;
+	
+	private int brojPutnika;
+	
+	private double cena;
+	
+	private LocalDate datum;
+	
+	private StatusRezervacije statusRezervacije;
 
 	public Rezervacija(long id, long turistaId, int brojPutnika, double cena, LocalDate datum,
 			StatusRezervacije statusRezervacije) {
@@ -15,12 +27,6 @@ public class Rezervacija {
 		this.statusRezervacije = statusRezervacije;
 	}
 
-	private long id;
-	private long turistaId;
-	private int brojPutnika;
-	private double cena;
-	private LocalDate datum;
-	private StatusRezervacije statusRezervacije;
 
 	public long getId() {
 		return id;

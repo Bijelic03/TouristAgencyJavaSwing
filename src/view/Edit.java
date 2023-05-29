@@ -23,35 +23,62 @@ import service.UpravljanjeKorisnicima;
 public class Edit extends JDialog {
 
 	private JLabel lblUsername;
+	
 	private JLabel lblIme;
+	
 	private JLabel lblPrezime;
+	
 	private JLabel lblBrojTelefona;
+	
 	private JLabel lblJMBG;
+	
 	private JLabel lblPol;
+	
 	private JLabel lblAdresa;
+	
 	private JLabel lblSifra;
+	
 	private JLabel lblPonoviSifru;
+	
 	private JLabel lblUloga;
 
 	private JTextField txtUsername;
+	
 	private JTextField txtIme;
+	
 	private JTextField txtPrezime;
+	
 	private JTextField txtBrojTelefona;
+	
 	private JTextField txtJMBG;
+	
 	private JComboBox<String> cmbPol;
+	
 	private JTextField txtAdresa;
+	
 	private JComboBox<String> cmbUloga;
 
 	private JPasswordField txtSifra;
+	
 	private JPasswordField txtPonoviSifru;
+	
 	private JButton btnSacuvaj;
+	
 	private JButton btnOdustani;
+	
 	private boolean boolPol;
+	
 	private Uloga ulogaEnum;
+	
 	private TableGenerator korisniciTable;
+	
 	private int selectedRow = 1;
-	UpravljanjeKorisnicima upravljanjeKorisnicima = new UpravljanjeKorisnicima();
+
 	Osoba selectedOsoba = new Osoba();
+	
+	public Edit() {
+		// TODO Auto-generated constructor stub
+	}
 	public Edit(TableGenerator korisniciTable, Osoba selectedOsoba) {
 		initComponents();
 		this.korisniciTable = korisniciTable;
@@ -60,11 +87,7 @@ public class Edit extends JDialog {
 		setFields();
 
 	}
-
-	public Edit() {
-		// TODO Auto-generated constructor stub
-	}
-
+	
 	private void setFields() {
 	    if (selectedOsoba != null) {
 	        txtUsername.setText(selectedOsoba.getUsername());
@@ -141,7 +164,7 @@ public class Edit extends JDialog {
 					ulogaEnum = Uloga.Turista;
 				}
 				
-				upravljanjeKorisnicima.editKorisnika(new Osoba(selectedOsoba.getId(), txtIme.getText(), txtPrezime.getText(),
+				UpravljanjeKorisnicima.editKorisnika(new Osoba(selectedOsoba.getId(), txtIme.getText(), txtPrezime.getText(),
 				        txtBrojTelefona.getText(), txtJMBG.getText(), boolPol, txtAdresa.getText(),
 				        txtUsername.getText(), new String(txtSifra.getPassword()), ulogaEnum, true));
                 UpravljanjeKorisnicima.ucitajKorisnike();

@@ -3,8 +3,11 @@ package model;
 public class TuristickaAgencija {
 
 	private long id;
+	
 	private String ime;
+	
 	private String adresa;
+	
 	private String brojTelefona;
 
 	
