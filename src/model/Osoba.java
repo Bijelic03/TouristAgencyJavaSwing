@@ -134,5 +134,9 @@ public class Osoba {
 	public void setAktivnost(Boolean aktivnost) {
 		this.aktivnost = aktivnost;
 	}
+	
+	public String getImePrezime() {
+		return this.ime + " " + this.prezime;
+	}
 
 }

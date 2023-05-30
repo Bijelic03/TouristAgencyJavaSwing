@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import model.Osoba;
+import service.CitanjeAranzmana;
 import service.UpravljanjeKorisnicima;
 
 public class AdminWindow extends JFrame {
@@ -40,17 +41,18 @@ public class AdminWindow extends JFrame {
 
 	public AdminWindow() {
 		setTitle("Admin window");
-		setSize(500, 500);
+		setSize(1000, 700);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setResizable(false);
+		setResizable(true);
 		initGUI();
 	}
 
 	private void initGUI() {
 		UpravljanjeKorisnicima.ucitajKorisnike();
 		TableGenerator korisniciTable = new TableGenerator(UpravljanjeKorisnicima.getPodaciOKorisnicimaTabela(), korisniciColumnNames);
-
+		AranzmaniPanel aranzmanPanel = new AranzmaniPanel(CitanjeAranzmana.ucitajAranzmane());
+		add(aranzmanPanel, BorderLayout.NORTH);
 		add(korisniciTable, BorderLayout.CENTER);
 		southButtons.add(addUser);
 		southButtons.add(editUser);

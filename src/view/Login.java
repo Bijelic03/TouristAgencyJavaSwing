@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import controller.UlogaSwitch;
+import controller.UlogaController;
 import model.Osoba;
 import service.UpravljanjeKorisnicima;
 
@@ -62,7 +62,7 @@ public class Login extends JPanel {
 				if (trenutnaOsoba != null) {
 					zatvoriProzore();
 
-					UlogaSwitch.prikaziUlogu(trenutnaOsoba);
+					UlogaController.prikaziUlogu(trenutnaOsoba);
 				} else {
 					JOptionPane.showMessageDialog(null, "Pogrešno korisničko ime ili šifra", "Greška",
 							JOptionPane.ERROR_MESSAGE);

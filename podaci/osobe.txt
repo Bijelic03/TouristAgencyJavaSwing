@@ -3,3 +3,4 @@
 2083899734588344172|Aleksa|Aleksic|545393|54354257|true|ddayadf|Aleksa1|aa|Administrator|true
 3438017727036540984|a|a|a|a|true|a|d|a|Turista|false
 5414176141449446242|Aleksandra|Randjelovic|764357345|64895768954736|false|sghsgfh|aleks|456|Administrator|false
+6769634149732273825|Luka|Lukic|465.2164|483752387|true|Novosadska 19|luka1|1234|TuristickiAgent|true

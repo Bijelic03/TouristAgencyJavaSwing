@@ -8,7 +8,7 @@ import view.LoginWindow;
 import view.TuristickiAgentWindow;
 import view.TuristaWindow;
 
-public class UlogaSwitch {
+public class UlogaController {
 
 	public static void prikaziUlogu(Osoba trenutnaOsoba) {
 
