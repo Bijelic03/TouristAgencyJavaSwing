@@ -1,6 +1,7 @@
 1683899734588344172|Dragan|Bijelic|060|1234|false|Adresa|dr|123|Administrator|true
 3430017928036540984|Petar|Peric|0645|1236|true|Adresa06|Petar1|Petar123|Turista|true
-2083899734588344172|Aleksa|Aleksic|545393|54354257|true|ddayadf|Aleksa1|aa|Administrator|true
+2083899734588344172|Aleksa|Aleksic|545393|54354257|true|ddayadf|Aleksa1|aa|Administrator|false
 3438017727036540984|a|a|a|a|true|a|d|a|Turista|false
 5414176141449446242|Aleksandra|Randjelovic|764357345|64895768954736|false|sghsgfh|aleks|456|Administrator|false
 6769634149732273825|Luka|Lukic|465.2164|483752387|true|Novosadska 19|luka1|1234|TuristickiAgent|true
+6476722354662230127|a|a|a|a|true|a|a|a|Administrator|true

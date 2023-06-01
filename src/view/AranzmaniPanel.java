@@ -27,19 +27,5 @@ public class AranzmaniPanel extends JPanel {
         }
     }
 
-    public static void main(String[] args) {
-        ArrayList<Aranzman> aranzmani = CitanjeAranzmana.ucitajAranzmane();
 
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Aranzmani Panel");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setPreferredSize(new Dimension(800, 600));
-
-            AranzmaniPanel aranzmaniPanel = new AranzmaniPanel(aranzmani);
-            frame.getContentPane().add(aranzmaniPanel);
-
-            frame.pack();
-            frame.setVisible(true);
-        });
-    }
 }

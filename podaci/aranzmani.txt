@@ -1,3 +1,3 @@
-05135|6769634149732273825|Letovanje|Apartman|29.5.2023|16|3200|5|slike\slika1.jpg|true
-05135|6769634149732273825|Zimovanje|Apartman|29.5.2023|16|3200|5|slike\slika1.jpg|true
-05135|6769634149732273825|EvropskiGradovi|Apartman|29.5.2023|16|3200|5|slike\slika1.jpg|false
+518635|6769634149732273825|Letovanje|Apartman|29.05.2023|16|3200.0|5|slike\slika1.jpg|true
+568135|6769634149732273825|Zimovanje|Apartman|29.05.2023|16|3200.0|5|slike\slika1.jpg|true
+513555895|6769634149732273825|EvropskiGradovi|Apartman|29.05.2023|16|3200.0|5|slike\slika1.jpg|false

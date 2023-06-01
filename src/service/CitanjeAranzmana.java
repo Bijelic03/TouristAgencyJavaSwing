@@ -75,20 +75,4 @@ public class CitanjeAranzmana {
 		return aranzmani;
 
 	}
-
-	/*
-	 * public static String[][] getPodaciOKorisnicimaTabela() { String[][] podaci =
-	 * new String[aranzmani.size()][11];
-	 * 
-	 * for (int i = 0; i < aranzmani.size(); i++) { Aranzman aranzman =
-	 * aranzmani.get(i); podaci[i][0] = aranzman.getId() + ""; podaci[i][1] =
-	 * aranzman.getTuristickiAgent().getImePrezime(); podaci[i][2] =
-	 * aranzman.getTipAranzmana(); podaci[i][3] = aranzman.getTipSmestaja();
-	 * podaci[i][4] = aranzman.getDostupanDatum(); podaci[i][5] =
-	 * aranzman.getKapacitet(); podaci[i][6] = aranzman.getCenaPoDanuPoOsobi();
-	 * podaci[i][7] = aranzman.getSajamskiPopust().toString(); podaci[i][8] =
-	 * aranzman.getPassword(); podaci[i][9] = aranzman.getUloga().toString(); }
-	 * 
-	 * return podaci; }
-	 */
 }

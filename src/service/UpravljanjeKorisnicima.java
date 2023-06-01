@@ -16,6 +16,8 @@ public class UpravljanjeKorisnicima {
 	private static ArrayList<Osoba> osobe;
 	
 	private static Long currentId;
+	
+	public static Osoba prijavljenaOsoba;
 
 	public static void ucitajKorisnike() {
 		osobe = new ArrayList<Osoba>();
@@ -52,11 +54,16 @@ public class UpravljanjeKorisnicima {
 			System.out.println("Greska prilikom ucitavanja datoteke: " + e.getMessage());
 		}
 	}
+	
+	public static void odjavaOsoba() {
+		prijavljenaOsoba = null;
+	}
 
 	public static Osoba login(String korisnickoIme, String sifra) {
 		for (Osoba osoba : osobe) {
 			if (osoba.getUsername().equals(korisnickoIme) && osoba.getPassword().equals(sifra)) {
 				if (osoba.getAktivnost()) {
+					prijavljenaOsoba = osoba;
 					return osoba;
 				}
 			}
@@ -173,7 +180,6 @@ public class UpravljanjeKorisnicima {
             while ((line = reader.readLine()) != null) {
                 String[] tokens = line.split("\\|");
                 currentId = Long.parseLong(tokens[0]);
-                System.out.println(currentId);
 
                 if (currentId == osobaZaIzmenu.getId()) {
                     // Izmena linije

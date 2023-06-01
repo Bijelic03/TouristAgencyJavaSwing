@@ -1,113 +1,103 @@
 package view;
+import javax.swing.*;
 
-import java.awt.BorderLayout;
-import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Arrays;
-import java.util.function.Function;
-
-import view.TableGenerator;
-import view.Register;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
-import model.Osoba;
-import service.CitanjeAranzmana;
 import service.UpravljanjeKorisnicima;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 public class AdminWindow extends JFrame {
+    private JButton korisniciButton;
+    private JButton rezervacijeButton;
+    private JButton aranzmaniButton;
+    private JButton odjavaButton;
+    private JButton exitButton;
 
-	private static final long serialVersionUID = -1393812183206771422L;
+    public AdminWindow() {
+        setTitle("AdminWindow");
+        setSize(400, 300);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
-	private JButton addUser = new JButton("Dodaj korisnika");
-	
-	private JButton editUser = new JButton("Izmeni korisnika");
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-	private JButton delUser = new JButton("Obrisi korisnika");
-	
-	private JButton logOff = new JButton("Odjavi se");
+        JPanel buttonPanel = new JPanel(new GridLayout(3, 1, 10, 10));
+        korisniciButton = new JButton("Korisnici");
+        rezervacijeButton = new JButton("Rezervacije");
+        aranzmaniButton = new JButton("Aranzmani");
+        buttonPanel.add(korisniciButton);
+        buttonPanel.add(rezervacijeButton);
+        buttonPanel.add(aranzmaniButton);
 
-	private JPanel southButtons = new JPanel();
+        JPanel sidePanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
+        odjavaButton = new JButton("Odjava");
+        exitButton = new JButton("Exit");
+        
+        // Prilagođavanje veličine dugmadi
+        Dimension buttonSize = new Dimension(80, 30);
+        korisniciButton.setPreferredSize(buttonSize);
+        rezervacijeButton.setPreferredSize(buttonSize);
+        aranzmaniButton.setPreferredSize(buttonSize);
+        odjavaButton.setPreferredSize(buttonSize);
+        exitButton.setPreferredSize(buttonSize);
+        
+        sidePanel.add(odjavaButton);
+        sidePanel.add(exitButton);
 
-	private Register register = null;
-	
-	private Edit edit;
-	
-	private String[] korisniciColumnNames = { "Id", "Ime", "Prezime", "Broj telefona", "Jmbg", "Pol", "Adresa", "Username",
-			"Sifra", "Uloga" };
+        mainPanel.add(buttonPanel, BorderLayout.CENTER);
+        mainPanel.add(sidePanel, BorderLayout.SOUTH);
 
-	public AdminWindow() {
-		setTitle("Admin window");
-		setSize(1000, 700);
-		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setResizable(true);
-		initGUI();
-	}
+        add(mainPanel);
 
-	private void initGUI() {
-		UpravljanjeKorisnicima.ucitajKorisnike();
-		TableGenerator korisniciTable = new TableGenerator(UpravljanjeKorisnicima.getPodaciOKorisnicimaTabela(), korisniciColumnNames);
-		AranzmaniPanel aranzmanPanel = new AranzmaniPanel(CitanjeAranzmana.ucitajAranzmane());
-		add(aranzmanPanel, BorderLayout.NORTH);
-		add(korisniciTable, BorderLayout.CENTER);
-		southButtons.add(addUser);
-		southButtons.add(editUser);
-		southButtons.add(delUser);
-		southButtons.add(logOff);
+        korisniciButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                KorisniciWindow korisniciWindow = new KorisniciWindow();
+                korisniciWindow.setVisible(true);
+            }
+        });
 
-		add(southButtons, BorderLayout.SOUTH);
+        rezervacijeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                RezervacijeWindow rezervacijeWindow = new RezervacijeWindow();
+                rezervacijeWindow.setVisible(true);
+            }
+        });
 
-		logOff.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-		        dispose();
-				LoginWindow loginWindow = new LoginWindow();
-				loginWindow.setVisible(true);
-			}
-		});
-		
-		
-		
-		addUser.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (register == null) {
-					register = new Register(korisniciTable);
+        aranzmaniButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AranzmaniWindow aranzmaniWindow = new AranzmaniWindow();
+                aranzmaniWindow.setVisible(true);
+            }
+        });
 
-				}
-				register.setVisible(true);
-			}
-		});
-		
-		editUser.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        if (korisniciTable.selectedRow != -1) {
-		            long selectedId =korisniciTable.getIdValueFromRow();
-		            Osoba selectedOsoba = UpravljanjeKorisnicima.getKorisnikById(selectedId);
-		            
-		            edit = new Edit(korisniciTable, selectedOsoba);
-		            edit.setVisible(true);
-		        }
-		    }
-		});
+        odjavaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                UpravljanjeKorisnicima.odjavaOsoba();
+                LoginWindow loginWindow = new LoginWindow();
+                loginWindow.setVisible(true);
+            }
+        });
 
-		delUser.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (korisniciTable.selectedRow != -1) {
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+    }
 
-					int choice = JOptionPane.showConfirmDialog(null, "Da li ste sigurni?", "",
-							JOptionPane.YES_NO_OPTION);
-					if (choice == JOptionPane.YES_OPTION) {
-						UpravljanjeKorisnicima.disableKorisnik(korisniciTable.getIdValueFromRow());
-						korisniciTable.removeSelectedRow();
-					} 
-
-				}
-			}
-
-		});
-
-	}
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new AdminWindow().setVisible(true);
+            }
+        });
+    }
 }
