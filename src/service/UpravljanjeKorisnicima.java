@@ -12,11 +12,11 @@ import model.Osoba;
 import model.Uloga;
 
 public class UpravljanjeKorisnicima {
-	
+
 	private static ArrayList<Osoba> osobe;
-	
+
 	private static Long currentId;
-	
+
 	public static Osoba prijavljenaOsoba;
 
 	public static void ucitajKorisnike() {
@@ -54,7 +54,7 @@ public class UpravljanjeKorisnicima {
 			System.out.println("Greska prilikom ucitavanja datoteke: " + e.getMessage());
 		}
 	}
-	
+
 	public static void odjavaOsoba() {
 		prijavljenaOsoba = null;
 	}
@@ -148,7 +148,6 @@ public class UpravljanjeKorisnicima {
 			writer.newLine();
 			writer.close();
 			osobe.add(osoba);
-			String[][] podaci = getPodaciOKorisnicima();
 		} catch (IOException e) {
 			System.out.println("Greska prilikom upisivanja korisnika u datoteku: " + e.getMessage());
 		}
@@ -177,22 +176,22 @@ public class UpravljanjeKorisnicima {
 			String line;
 			int currentLine = 0;
 
-            while ((line = reader.readLine()) != null) {
-                String[] tokens = line.split("\\|");
-                currentId = Long.parseLong(tokens[0]);
+			while ((line = reader.readLine()) != null) {
+				String[] tokens = line.split("\\|");
+				currentId = Long.parseLong(tokens[0]);
 
-                if (currentId == osobaZaIzmenu.getId()) {
-                    // Izmena linije
-                    line = osobaZaIzmenu.getId() + "|" + osobaZaIzmenu.getIme() + "|" + osobaZaIzmenu.getPrezime()
-                            + "|" + osobaZaIzmenu.getBrojTelefona() + "|" + osobaZaIzmenu.getJmbg() + "|"
-                            + osobaZaIzmenu.getPol() + "|" + osobaZaIzmenu.getAdresa() + "|"
-                            + osobaZaIzmenu.getUsername() + "|" + osobaZaIzmenu.getPassword() + "|"
-                            + osobaZaIzmenu.getUloga() + "|" + osobaZaIzmenu.getAktivnost();
-                }
-                writer.write(line);
-                writer.newLine();
-                currentLine++;
-            }
+				if (currentId == osobaZaIzmenu.getId()) {
+					// Izmena linije
+					line = osobaZaIzmenu.getId() + "|" + osobaZaIzmenu.getIme() + "|" + osobaZaIzmenu.getPrezime() + "|"
+							+ osobaZaIzmenu.getBrojTelefona() + "|" + osobaZaIzmenu.getJmbg() + "|"
+							+ osobaZaIzmenu.getPol() + "|" + osobaZaIzmenu.getAdresa() + "|"
+							+ osobaZaIzmenu.getUsername() + "|" + osobaZaIzmenu.getPassword() + "|"
+							+ osobaZaIzmenu.getUloga() + "|" + osobaZaIzmenu.getAktivnost();
+				}
+				writer.write(line);
+				writer.newLine();
+				currentLine++;
+			}
 
 			reader.close();
 			writer.close();
@@ -209,46 +208,46 @@ public class UpravljanjeKorisnicima {
 	}
 
 	public static void editKorisnika(Osoba osoba) {
-        Osoba osobaZaIzmenu = osoba;
+		Osoba osobaZaIzmenu = osoba;
 
-        try {
-            File osobeFile = new File("podaci/osobe.txt");
-            File tempFile = new File("podaci/osobe_temp.txt");
+		try {
+			File osobeFile = new File("podaci/osobe.txt");
+			File tempFile = new File("podaci/osobe_temp.txt");
 
-            BufferedReader reader = new BufferedReader(new FileReader(osobeFile));
-            BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+			BufferedReader reader = new BufferedReader(new FileReader(osobeFile));
+			BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
 
-            String line;
-            int currentLine = 0;
+			String line;
+			int currentLine = 0;
 
-            while ((line = reader.readLine()) != null) {
-                String[] tokens = line.split("\\|");
-                currentId = Long.parseLong(tokens[0]);
-                System.out.println(currentId);
+			while ((line = reader.readLine()) != null) {
+				String[] tokens = line.split("\\|");
+				currentId = Long.parseLong(tokens[0]);
+				System.out.println(currentId);
 
-                if (currentId == osoba.getId()) {
-                    // Izmena linije
-                    line = osobaZaIzmenu.getId() + "|" + osobaZaIzmenu.getIme() + "|" + osobaZaIzmenu.getPrezime()
-                            + "|" + osobaZaIzmenu.getBrojTelefona() + "|" + osobaZaIzmenu.getJmbg() + "|"
-                            + osobaZaIzmenu.getPol() + "|" + osobaZaIzmenu.getAdresa() + "|"
-                            + osobaZaIzmenu.getUsername() + "|" + osobaZaIzmenu.getPassword() + "|"
-                            + osobaZaIzmenu.getUloga() + "|" + osobaZaIzmenu.getAktivnost();
-                }
-                writer.write(line);
-                writer.newLine();
-                currentLine++;
-            }
+				if (currentId == osoba.getId()) {
+					// Izmena linije
+					line = osobaZaIzmenu.getId() + "|" + osobaZaIzmenu.getIme() + "|" + osobaZaIzmenu.getPrezime() + "|"
+							+ osobaZaIzmenu.getBrojTelefona() + "|" + osobaZaIzmenu.getJmbg() + "|"
+							+ osobaZaIzmenu.getPol() + "|" + osobaZaIzmenu.getAdresa() + "|"
+							+ osobaZaIzmenu.getUsername() + "|" + osobaZaIzmenu.getPassword() + "|"
+							+ osobaZaIzmenu.getUloga() + "|" + osobaZaIzmenu.getAktivnost();
+				}
+				writer.write(line);
+				writer.newLine();
+				currentLine++;
+			}
 
-            reader.close();
-            writer.close();
+			reader.close();
+			writer.close();
 
-            // Zamena originalnog fajla sa privremenim fajlom
-            osobeFile.delete();
-            tempFile.renameTo(osobeFile);
+			// Zamena originalnog fajla sa privremenim fajlom
+			osobeFile.delete();
+			tempFile.renameTo(osobeFile);
 
-            System.out.println("Korisnik je izmenjen.");
-        } catch (IOException e) {
-            System.out.println("Greska prilikom izmene korisnika: " + e.getMessage());
-        }
-    }
+			System.out.println("Korisnik je izmenjen.");
+		} catch (IOException e) {
+			System.out.println("Greska prilikom izmene korisnika: " + e.getMessage());
+		}
+	}
 }

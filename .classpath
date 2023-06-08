@@ -6,5 +6,10 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="D:/Users/Dragan Bijelic/Downloads/lib/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="D:/Users/Dragan Bijelic/Downloads/lib/jgoodies-common-1.2.0.jar"/>
+	<classpathentry kind="lib" path="D:/Users/Dragan Bijelic/Downloads/lib/jgoodies-looks-2.4.1.jar"/>
+	<classpathentry kind="lib" path="D:/Users/Dragan Bijelic/Downloads/lib/junit-4.6.jar"/>
+	<classpathentry kind="lib" path="D:/Users/Dragan Bijelic/Downloads/jdatechooser_bin_doc_1_1_1/lib/DateChooser.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

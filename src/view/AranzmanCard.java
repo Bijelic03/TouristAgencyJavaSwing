@@ -19,71 +19,99 @@ public class AranzmanCard extends JPanel {
 	private JLabel kapacitetLabel;
 	private JLabel cenaLabel;
 	private JLabel popustLabel;
+	private JLabel slikaLabel; // Dodana komponenta za prikaz slike
 
 	public static AranzmanCard selectedCard;
 	private Border defaultBorder;
 	private Border selectedBorder;
 
-	
-    public void deleteCard() {
-        if (selectedCard == this) {
-            selectedCard = null;
-        }
-        Container parent = getParent();
-        if (parent != null) {
-            parent.remove(this);
-            parent.revalidate();
-            parent.repaint();
-        }
-    }
-	
-	
-	public void refreshCard() {
-	    // Ažurirajte sve labele kartice na osnovu trenutnog aranžmana
-	    idLabel.setText("ID: " + UpravljanjeAranzmanima.currentAranzman.getId());
-	    agentLabel.setText("Agent: " + UpravljanjeAranzmanima.currentAranzman.getTuristickiAgent().getIme() + " " + UpravljanjeAranzmanima.currentAranzman.getTuristickiAgent().getPrezime());
-	    aranzmanLabel.setText("Tip aranzmana: " + UpravljanjeAranzmanima.currentAranzman.getTipAranzmana());
-	    smestajLabel.setText("Tip smestaja: " + UpravljanjeAranzmanima.currentAranzman.getTipSmestaja());
-	    datumLabel.setText("Datum: " + UpravljanjeAranzmanima.currentAranzman.getDostupanDatum());
-	    kapacitetLabel.setText("Kapacitet: " + UpravljanjeAranzmanima.currentAranzman.getKapacitet());
-	    cenaLabel.setText("Cena: " + UpravljanjeAranzmanima.currentAranzman.getCenaPoDanuPoOsobi());
-	    popustLabel.setText("Popust: " + UpravljanjeAranzmanima.currentAranzman.getSajamskiPopust() + "%");
+	public void deleteCard() {
+		if (selectedCard == this) {
+			selectedCard = null;
+		}
+		Container parent = getParent();
+		if (parent != null) {
+			parent.remove(this);
+			parent.revalidate();
+			parent.repaint();
+		}
 	}
+	
+	
+	/*public void refreshCard() {
+		// Ažurirajte sve labele kartice na osnovu trenutnog aranžmana
+		Aranzman aranzman = UpravljanjeAranzmanima.currentAranzman;
+		idLabel.setText("ID: " + aranzman.getId());
+		agentLabel.setText(
+				"Agent: " + aranzman.getTuristickiAgent().getIme() + " " + aranzman.getTuristickiAgent().getPrezime());
+		aranzmanLabel.setText("Tip aranzmana: " + aranzman.getTipAranzmana());
+		smestajLabel.setText("Tip smestaja: " + aranzman.getTipSmestaja());
+		datumLabel.setText("Datum: " + aranzman.getDostupanDatum());
+		kapacitetLabel.setText("Kapacitet: " + aranzman.getKapacitet());
+		cenaLabel.setText("Cena: " + aranzman.getCenaPoDanuPoOsobi());
+		popustLabel.setText("Popust: " + aranzman.getSajamskiPopust() + "%");
+		try {
+			String putanjaDoSlike = aranzman.getPutanjaDoSlike();
+			ImageIcon imageIcon = new ImageIcon(getClass().getResource(putanjaDoSlike));
+			Image image = imageIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+			System.out.println(aranzman.getPutanjaDoSlike());
+			slikaLabel.setIcon(new ImageIcon(image));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}*/
 
 	public AranzmanCard(Aranzman aranzman) {
+		setLayout(new BorderLayout()); 
+		setBackground(Color.WHITE); 
 
-		setLayout(new GridLayout(8, 1));
-		setPreferredSize(new Dimension(200, 200));
-		setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-		setBackground(Color.WHITE);
+		JPanel textPanel = new JPanel(new GridLayout(9, 1));
+		textPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); 
+																			
+		textPanel.setBackground(Color.WHITE); 
 
 		idLabel = new JLabel("ID: " + aranzman.getId());
-		add(idLabel);
+		textPanel.add(idLabel);
 
 		agentLabel = new JLabel(
 				"Agent: " + aranzman.getTuristickiAgent().getIme() + " " + aranzman.getTuristickiAgent().getPrezime());
-		add(agentLabel);
+		textPanel.add(agentLabel);
 
 		aranzmanLabel = new JLabel("Tip aranzmana: " + aranzman.getTipAranzmana());
-		add(aranzmanLabel);
+		textPanel.add(aranzmanLabel);
 
 		smestajLabel = new JLabel("Tip smestaja: " + aranzman.getTipSmestaja());
-		add(smestajLabel);
+		textPanel.add(smestajLabel);
 
 		datumLabel = new JLabel("Datum: " + aranzman.getDostupanDatum());
-		add(datumLabel);
+		textPanel.add(datumLabel);
 
 		kapacitetLabel = new JLabel("Kapacitet: " + aranzman.getKapacitet());
-		add(kapacitetLabel);
+		textPanel.add(kapacitetLabel);
 
 		cenaLabel = new JLabel("Cena: " + aranzman.getCenaPoDanuPoOsobi());
-		add(cenaLabel);
+		textPanel.add(cenaLabel);
 
 		popustLabel = new JLabel("Popust: " + aranzman.getSajamskiPopust() + "%");
-		add(popustLabel);
+		textPanel.add(popustLabel);
 
-		defaultBorder = BorderFactory.createLineBorder(Color.BLACK, 1);
-		selectedBorder = BorderFactory.createLineBorder(Color.RED, 2);
+		add(textPanel, BorderLayout.WEST); // Postavite textPanel na lijevu stranu
+		setBorder(defaultBorder);
+
+		try {
+			ImageIcon imgThisImg = new ImageIcon(aranzman.getPutanjaDoSlike());
+			Image image = imgThisImg.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+			ImageIcon scaledImageIcon = new ImageIcon(image);
+			slikaLabel = new JLabel(scaledImageIcon); 
+			slikaLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+																				
+			add(slikaLabel, BorderLayout.EAST);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		defaultBorder = BorderFactory.createLineBorder(Color.WHITE, 1);
+		selectedBorder = BorderFactory.createLineBorder(Color.BLUE, 1);
 
 		addMouseListener(new MouseAdapter() {
 			@Override

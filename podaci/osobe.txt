@@ -5,3 +5,7 @@
 5414176141449446242|Aleksandra|Randjelovic|764357345|64895768954736|false|sghsgfh|aleks|456|Administrator|false
 6769634149732273825|Luka|Lukic|465.2164|483752387|true|Novosadska 19|luka1|1234|TuristickiAgent|true
 6476722354662230127|a|a|a|a|true|a|a|a|Administrator|true
+676963414973983825|Laza|Lazarevic|465.2164|483752387|true|Novosadska 19|laza|123|TuristickiAgent|true
+8457256437799862343|Kecomir|Cvetman|06318741|97856757|false|Telep 11|kecman|123|TuristickiAgent|true
+7196093915716666774|a|a|a|1234567890000|true|a|abc|123456787|Administrator|true
+1465807531702766724|a|a|a|1111111111111|true|a|a|12345678|Administrator|false

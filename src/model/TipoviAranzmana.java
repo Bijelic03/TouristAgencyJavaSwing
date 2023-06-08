@@ -1,5 +1,5 @@
 package model;
 
 public enum TipoviAranzmana {
-	Letovanje, Zimovanje, EvropskiGradovi, DalekaPutavanja, FirstMinute, LastMinute, PutovanjaUtokuPraznika
+	Letovanje, Zimovanje, EvropskiGradovi, DalekaPutovanja, FirstMinute, LastMinute, PutovanjaUtokuPraznika
 }

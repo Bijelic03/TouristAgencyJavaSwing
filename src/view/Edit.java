@@ -23,62 +23,59 @@ import service.UpravljanjeKorisnicima;
 public class Edit extends JDialog {
 
 	private JLabel lblUsername;
-	
+
 	private JLabel lblIme;
-	
+
 	private JLabel lblPrezime;
-	
+
 	private JLabel lblBrojTelefona;
-	
+
 	private JLabel lblJMBG;
-	
+
 	private JLabel lblPol;
-	
+
 	private JLabel lblAdresa;
-	
+
 	private JLabel lblSifra;
-	
-	private JLabel lblPonoviSifru;
-	
+
 	private JLabel lblUloga;
 
 	private JTextField txtUsername;
-	
+
 	private JTextField txtIme;
-	
+
 	private JTextField txtPrezime;
-	
+
 	private JTextField txtBrojTelefona;
-	
+
 	private JTextField txtJMBG;
-	
+
 	private JComboBox<String> cmbPol;
-	
+
 	private JTextField txtAdresa;
-	
+
 	private JComboBox<String> cmbUloga;
 
 	private JPasswordField txtSifra;
-	
-	private JPasswordField txtPonoviSifru;
-	
+
 	private JButton btnSacuvaj;
-	
+
 	private JButton btnOdustani;
-	
+
 	private boolean boolPol;
-	
+
 	private Uloga ulogaEnum;
-	
+
 	private TableGenerator korisniciTable;
-	
+
 	private int selectedRow = 1;
 
 	Osoba selectedOsoba = new Osoba();
-	
+
 	public Edit() {
 		// TODO Auto-generated constructor stub
 	}
+
 	public Edit(TableGenerator korisniciTable, Osoba selectedOsoba) {
 		initComponents();
 		this.korisniciTable = korisniciTable;
@@ -87,19 +84,19 @@ public class Edit extends JDialog {
 		setFields();
 
 	}
-	
+
 	private void setFields() {
-	    if (selectedOsoba != null) {
-	        txtUsername.setText(selectedOsoba.getUsername());
-	        txtIme.setText(selectedOsoba.getIme());
-	        txtPrezime.setText(selectedOsoba.getPrezime());
-	        txtBrojTelefona.setText(selectedOsoba.getBrojTelefona());
-	        txtJMBG.setText(selectedOsoba.getJmbg());
-	        cmbPol.setSelectedItem(selectedOsoba.getPol() ? "Muški" : "Ženski");
-	        txtAdresa.setText(selectedOsoba.getAdresa());
-	        cmbUloga.setSelectedItem(selectedOsoba.getUloga().toString());
-	        txtSifra.setText(selectedOsoba.getPassword());
-	    } 
+		if (selectedOsoba != null) {
+			txtUsername.setText(selectedOsoba.getUsername());
+			txtIme.setText(selectedOsoba.getIme());
+			txtPrezime.setText(selectedOsoba.getPrezime());
+			txtBrojTelefona.setText(selectedOsoba.getBrojTelefona());
+			txtJMBG.setText(selectedOsoba.getJmbg());
+			cmbPol.setSelectedItem(selectedOsoba.getPol() ? "Muški" : "Ženski");
+			txtAdresa.setText(selectedOsoba.getAdresa());
+			cmbUloga.setSelectedItem(selectedOsoba.getUloga().toString());
+			txtSifra.setText(selectedOsoba.getPassword());
+		}
 	}
 
 	private void initComponents() {
@@ -112,8 +109,7 @@ public class Edit extends JDialog {
 		lblAdresa = new JLabel("Adresa:");
 		lblUloga = new JLabel("Uloga:");
 		lblSifra = new JLabel("Šifra:");
-		lblPonoviSifru = new JLabel("Ponovi šifru:");
-
+				
 		txtUsername = new JTextField(20);
 		txtUsername = new JTextField(20);
 		txtIme = new JTextField(20);
@@ -123,10 +119,12 @@ public class Edit extends JDialog {
 		cmbPol = new JComboBox<>(new String[] { "Muški", "Ženski" });
 		txtAdresa = new JTextField(20);
 		cmbUloga = new JComboBox<>(new String[] { "Administrator", "Turisticki agent", "Turista" });
-
 		txtSifra = new JPasswordField(20);
-		txtPonoviSifru = new JPasswordField(20);
 
+		txtJMBG.setEnabled(false);
+		cmbPol.setEnabled(false);
+
+		
 		btnSacuvaj = new JButton("Sačuvaj");
 		btnOdustani = new JButton("Odustani");
 
@@ -140,13 +138,17 @@ public class Edit extends JDialog {
 		});
 
 		btnSacuvaj.addActionListener(e -> {
-			if (validateFields() == 1) {
-				// Perform registration process
-				JOptionPane.showMessageDialog(this, "Sifre se ne poklapaju!");
-			} else if (validateFields() == 2) {
-				JOptionPane.showMessageDialog(this, "Niste popunili sva polja!");
-			} else if (validateFields() == 3) {
-				JOptionPane.showMessageDialog(this, "Uspesno ste popunili registraciju!");
+            int validation = validateFields();
+
+       	 if (validation == 2) {
+             JOptionPane.showMessageDialog(this, "Niste popunili sva polja!");
+         } else if (validation == 3) {
+             JOptionPane.showMessageDialog(this, "JMBG nije validan! Mora sadržavati tačno 13 cifara.");
+         } else if (validation == 4) {
+             JOptionPane.showMessageDialog(this, "Šifra je prekratka! Mora sadržavati najmanje 8 karaktera.");
+         } else if (validation == 5) {
+             JOptionPane.showMessageDialog(this, "Šifra ne sadrži broj!");
+         } else if (validateFields() == 6) {
 				String pol = cmbPol.getSelectedItem().toString();
 
 				if (pol.equals("Muški")) {
@@ -163,12 +165,13 @@ public class Edit extends JDialog {
 				} else {
 					ulogaEnum = Uloga.Turista;
 				}
-				
-				UpravljanjeKorisnicima.editKorisnika(new Osoba(selectedOsoba.getId(), txtIme.getText(), txtPrezime.getText(),
-				        txtBrojTelefona.getText(), txtJMBG.getText(), boolPol, txtAdresa.getText(),
-				        txtUsername.getText(), new String(txtSifra.getPassword()), ulogaEnum, true));
-                UpravljanjeKorisnicima.ucitajKorisnike();
-               korisniciTable.refreshTableData(UpravljanjeKorisnicima.getPodaciOKorisnicimaTabela());
+
+				UpravljanjeKorisnicima
+						.editKorisnika(new Osoba(selectedOsoba.getId(), txtIme.getText(), txtPrezime.getText(),
+								txtBrojTelefona.getText(), txtJMBG.getText(), boolPol, txtAdresa.getText(),
+								txtUsername.getText(), new String(txtSifra.getPassword()), ulogaEnum, true));
+				UpravljanjeKorisnicima.ucitajKorisnike();
+				korisniciTable.refreshTableData(UpravljanjeKorisnicima.getPodaciOKorisnicimaTabela());
 				dispose();
 
 			}
@@ -183,12 +186,12 @@ public class Edit extends JDialog {
 						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(lblUsername)
 								.addComponent(lblIme).addComponent(lblPrezime).addComponent(lblBrojTelefona)
 								.addComponent(lblJMBG).addComponent(lblPol).addComponent(lblAdresa)
-								.addComponent(lblUloga).addComponent(lblSifra).addComponent(lblPonoviSifru))
+								.addComponent(lblUloga).addComponent(lblSifra))
 						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(txtUsername)
 								.addComponent(txtIme).addComponent(txtPrezime).addComponent(txtBrojTelefona)
 								.addComponent(txtJMBG).addComponent(cmbPol).addComponent(txtAdresa)
-								.addComponent(cmbUloga).addComponent(txtSifra).addComponent(txtPonoviSifru)))
+								.addComponent(cmbUloga).addComponent(txtSifra)))
 						.addGroup(layout.createSequentialGroup().addComponent(btnSacuvaj)
 								.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED).addComponent(btnOdustani)))
 				.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
@@ -230,9 +233,7 @@ public class Edit extends JDialog {
 								.addComponent(txtSifra, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 										GroupLayout.PREFERRED_SIZE))
 						.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-								.addComponent(lblPonoviSifru).addComponent(txtPonoviSifru, GroupLayout.PREFERRED_SIZE,
-										GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+
 						.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
 						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(btnSacuvaj)
 								.addComponent(btnOdustani))
@@ -240,49 +241,39 @@ public class Edit extends JDialog {
 		pack();
 	}
 
-	private int validateFields() {
+    private int validateFields() {
+        String username = txtUsername.getText();
+        String ime = txtIme.getText();
+        String prezime = txtPrezime.getText();
+        String brojTelefona = txtBrojTelefona.getText();
+        String jmbg = txtJMBG.getText();
+        String adresa = txtAdresa.getText();
+        String sifra = new String(txtSifra.getPassword());
 
-		String username = txtUsername.getText();
-		String ime = txtIme.getText();
-		String prezime = txtPrezime.getText();
-		String brojTelefona = txtBrojTelefona.getText();
-		String jmbg = txtJMBG.getText();
-		String adresa = txtAdresa.getText();
+        if (username.isEmpty() || ime.isEmpty() || prezime.isEmpty() || brojTelefona.isEmpty() || jmbg.isEmpty()
+                || adresa.isEmpty() || sifra.isEmpty()) {
+            return 2; // One or more fields are empty
+        }
 
-		String sifra = new String(txtSifra.getPassword());
-		String ponoviSifru = new String(txtPonoviSifru.getPassword());
-		if (!sifra.equals(ponoviSifru)) {
-			return 1;
-		}
-		if (username.isEmpty() || ime.isEmpty() || prezime.isEmpty() || brojTelefona.isEmpty() || jmbg.isEmpty()
-				|| adresa.isEmpty() || sifra.isEmpty() || ponoviSifru.isEmpty()) {
-			return 2; // One or more fields are empty
-		}
+        if (jmbg.length() != 13) {
+            return 3; // JMBG is not valid (must have exactly 13 digits)
+        }
 
-		return 3; // All fields are filled
-	}
+        if (sifra.length() < 8) {
+            return 4; // Password is too short (must have at least 8 characters)
+        }
 
-	public static void main(String[] args) {
-		JFrame parent = new JFrame();
-		parent.setResizable(false);
-		parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		parent.setSize(400, 300);
+        if (!sifra.matches(".*\\d.*")) {
+            return 5; // Password does not contain a number
+        }
 
-		JButton btnOpenEdit = new JButton("Otvaranje dijaloga za edit");
-		btnOpenEdit.addActionListener(e -> {
-			Edit dialog = new Edit();
-			dialog.setVisible(true);
-		});
+        return 6; // All fields are valid
+    }
 
-		GroupLayout layout = new GroupLayout(parent.getContentPane());
-		parent.getContentPane().setLayout(layout);
-		layout.setHorizontalGroup(
-				layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup()
-						.addGap(130, 130, 130).addComponent(btnOpenEdit).addContainerGap(141, Short.MAX_VALUE)));
-		layout.setVerticalGroup(
-				layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup()
-						.addGap(114, 114, 114).addComponent(btnOpenEdit).addContainerGap(153, Short.MAX_VALUE)));
 
-		parent.setVisible(true);
-	}
+	
+	
+	
+	
+	
 }

@@ -32,6 +32,8 @@ public class AranzmaniWindow extends JFrame {
 
 	private JPanel southButtons = new JPanel();
 
+	private AranzmaniCreate aranzmaniCreate = null;
+	
 	public AranzmaniWindow() {
 		setTitle("Aranzmani");
 		setSize(1000, 700);
@@ -42,9 +44,7 @@ public class AranzmaniWindow extends JFrame {
 	}
 
 	private void adminButtons() {
-		southButtons.add(addAranzman);
-		southButtons.add(editAranzman);
-		southButtons.add(delAranzman);
+
 
 	}
 
@@ -88,7 +88,12 @@ public class AranzmaniWindow extends JFrame {
 
 		addAranzman.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (aranzmaniCreate == null) {
+					aranzmaniCreate = new AranzmaniCreate(aranzmanPanel);
 
+				}
+				aranzmaniCreate.setVisible(true);
+				
 			}
 		});
 
@@ -100,15 +105,11 @@ public class AranzmaniWindow extends JFrame {
 
 		delAranzman.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				int choice = JOptionPane.showConfirmDialog(null, "Da li ste sigurni?", "",
-						JOptionPane.YES_NO_OPTION);
+
+				int choice = JOptionPane.showConfirmDialog(null, "Da li ste sigurni?", "", JOptionPane.YES_NO_OPTION);
 				if (choice == JOptionPane.YES_OPTION) {
 					UpravljanjeAranzmanima.disableAranzman();
-				} 
-				
-				
-
+				}
 			}
 
 		});

@@ -15,10 +15,11 @@ import model.TipoviSmestaja;
 import model.Uloga;
 
 public class CitanjeAranzmana {
-	private static ArrayList<Aranzman> aranzmani;
+	public static ArrayList<Aranzman> aranzmani;
 
 	public static ArrayList<Aranzman> ucitajAranzmane() {
 		aranzmani = new ArrayList<Aranzman>();
+
 		try {
 			File aranzmaniFile = new File("podaci/aranzmani.txt");
 			aranzmani.clear();
@@ -62,8 +63,18 @@ public class CitanjeAranzmana {
 					Aranzman aranzman = new Aranzman(id, turistickiAgent, tipAranzmana, tipSmestaja, datumPocetka,
 							kapacitet, cenaPoDanuPoOsobi, popust, adresaSlike, aktivnost);
 
-					if (aranzman.getAktivnost()) {
-						aranzmani.add(aranzman);
+					if (aranzman.getAktivnost() && UpravljanjeKorisnicima.prijavljenaOsoba != null) {
+						if (UpravljanjeKorisnicima.prijavljenaOsoba.getUloga() == Uloga.Administrator
+								|| UpravljanjeKorisnicima.prijavljenaOsoba.getUloga() == Uloga.Turista) {
+							aranzmani.add(aranzman);
+						} else {
+							if (aranzman.getTuristickiAgent().getId() == UpravljanjeKorisnicima.prijavljenaOsoba
+									.getId()) {
+								aranzmani.add(aranzman);
+
+							}
+						}
+
 					}
 				}
 			} catch (NumberFormatException e) {

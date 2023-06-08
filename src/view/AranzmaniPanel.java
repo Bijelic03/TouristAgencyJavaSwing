@@ -26,6 +26,11 @@ public class AranzmaniPanel extends JPanel {
             add(aranzmanCard);
         }
     }
-
+    public static void addAranzmanCard(JPanel aranzmaniPanel, Aranzman aranzman) {
+        AranzmanCard newAranzmanCard = new AranzmanCard(aranzman);
+    	aranzmaniPanel.add(newAranzmanCard);
+    	aranzmaniPanel.revalidate();
+    	aranzmaniPanel.repaint();
+    }
 
 }
