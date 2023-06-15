@@ -1,11 +1,9 @@
 1683899734588344172|Dragan|Bijelic|060|1234|false|Adresa|dr|123|Administrator|true
 3430017928036540984|Petar|Peric|0645|1236|true|Adresa06|Petar1|Petar123|Turista|true
 2083899734588344172|Aleksa|Aleksic|545393|54354257|true|ddayadf|Aleksa1|aa|Administrator|false
-3438017727036540984|a|a|a|a|true|a|d|a|Turista|false
+3438017727036540984|a|a|a|a|true|a|da|12|Turista|true
 5414176141449446242|Aleksandra|Randjelovic|764357345|64895768954736|false|sghsgfh|aleks|456|Administrator|false
 6769634149732273825|Luka|Lukic|465.2164|483752387|true|Novosadska 19|luka1|1234|TuristickiAgent|true
-6476722354662230127|a|a|a|a|true|a|a|a|Administrator|true
 676963414973983825|Laza|Lazarevic|465.2164|483752387|true|Novosadska 19|laza|123|TuristickiAgent|true
 8457256437799862343|Kecomir|Cvetman|06318741|97856757|false|Telep 11|kecman|123|TuristickiAgent|true
-7196093915716666774|a|a|a|1234567890000|true|a|abc|123456787|Administrator|true
-1465807531702766724|a|a|a|1111111111111|true|a|a|12345678|Administrator|false
+5183735597189120821|u|u|0604|1234567894537|true|www|1|12345678|Turista|true

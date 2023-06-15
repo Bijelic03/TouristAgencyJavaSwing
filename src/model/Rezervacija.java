@@ -3,30 +3,34 @@ package model;
 import java.time.LocalDate;
 
 public class Rezervacija {
-	
+
 	private long id;
-	
-	private long turistaId;
-	
+
+	private Osoba turista;
+
+	private Aranzman aranzman;
 	private int brojPutnika;
-	
+
 	private double cena;
-	
-	private LocalDate datum;
-	
+
+	private LocalDate datumkreiranja;
+
+	private int brojDana;
+
 	private StatusRezervacije statusRezervacije;
 
-	public Rezervacija(long id, long turistaId, int brojPutnika, double cena, LocalDate datum,
-			StatusRezervacije statusRezervacije) {
+	public Rezervacija(long id, Osoba turista, Aranzman aranzman, int brojPutnika, double cena,
+			LocalDate datumkreiranja, int brojDana, StatusRezervacije statusRezervacije) {
 		super();
 		this.id = id;
-		this.turistaId = turistaId;
+		this.turista = turista;
+		this.aranzman = aranzman;
 		this.brojPutnika = brojPutnika;
 		this.cena = cena;
-		this.datum = datum;
+		this.brojDana = brojDana;
+		this.datumkreiranja = datumkreiranja;
 		this.statusRezervacije = statusRezervacije;
 	}
-
 
 	public long getId() {
 		return id;
@@ -36,12 +40,20 @@ public class Rezervacija {
 		this.id = id;
 	}
 
-	public long getTuristaId() {
-		return turistaId;
+	public Osoba getTurista() {
+		return turista;
 	}
 
-	public void setTuristaId(long turistaId) {
-		this.turistaId = turistaId;
+	public void setTurista(Osoba turista) {
+		this.turista = turista;
+	}
+
+	public Aranzman getAranzman() {
+		return aranzman;
+	}
+
+	public void setAranzman(Aranzman aranzman) {
+		this.aranzman = aranzman;
 	}
 
 	public int getBrojPutnika() {
@@ -60,12 +72,20 @@ public class Rezervacija {
 		this.cena = cena;
 	}
 
-	public LocalDate getDatum() {
-		return datum;
+	public int getBrojDana() {
+		return brojDana;
 	}
 
-	public void setDatum(LocalDate datum) {
-		this.datum = datum;
+	public void setBrojDana(int brojDana) {
+		this.brojDana = brojDana;
+	}
+
+	public LocalDate getDatumkreiranja() {
+		return datumkreiranja;
+	}
+
+	public void setDatumkreiranja(LocalDate datumkreiranja) {
+		this.datumkreiranja = datumkreiranja;
 	}
 
 	public StatusRezervacije getStatusRezervacije() {

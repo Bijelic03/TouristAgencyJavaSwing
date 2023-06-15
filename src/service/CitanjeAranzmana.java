@@ -66,13 +66,11 @@ public class CitanjeAranzmana {
 					if (aranzman.getAktivnost() && UpravljanjeKorisnicima.prijavljenaOsoba != null) {
 						if (UpravljanjeKorisnicima.prijavljenaOsoba.getUloga() == Uloga.Administrator
 								|| UpravljanjeKorisnicima.prijavljenaOsoba.getUloga() == Uloga.Turista) {
-							aranzmani.add(aranzman);
-						} else {
-							if (aranzman.getTuristickiAgent().getId() == UpravljanjeKorisnicima.prijavljenaOsoba
-									.getId()) {
-								aranzmani.add(aranzman);
 
-							}
+							aranzmani.add(aranzman);
+						} else if (aranzman.getTuristickiAgent().getId() == UpravljanjeKorisnicima.prijavljenaOsoba
+								.getId()) {
+							aranzmani.add(aranzman);
 						}
 
 					}
@@ -83,6 +81,7 @@ public class CitanjeAranzmana {
 		} catch (IOException e) {
 			System.out.println("Greska prilikom ucitavanja datoteke: " + e.getMessage());
 		}
+
 		return aranzmani;
 
 	}

@@ -22,7 +22,7 @@ import java.io.File;
 import java.util.Date;
 import java.util.UUID;
 
-public class AranzmaniCreate extends JDialog {
+public class AranzmaniEdit extends JDialog {
 
 	private static final String DEFAULT_PATH = "slike/";
 
@@ -57,11 +57,14 @@ public class AranzmaniCreate extends JDialog {
 
 	private JPanel aranzmanPanel;
 
-	private Aranzman noviAranzman;
+	private Aranzman aranzman;
 
-	public AranzmaniCreate(AranzmaniPanel aranzmanPanel) {
+	public AranzmaniEdit(AranzmaniPanel aranzmanPanel) {
+		this.aranzman = UpravljanjeAranzmanima.currentAranzman;
 		this.aranzmanPanel = aranzmanPanel;
 		initComponents();
+		setDefaultValues();
+
 	}
 
 	private void initComponents() {
@@ -78,12 +81,14 @@ public class AranzmaniCreate extends JDialog {
 		cmbTipSmestaja = new JComboBox<>(new String[] { "Hotel", "Apartman" });
 
 		dateChooser = new JDateChooser();
+		Date date = Date.from(aranzman.getDostupanDatum().atStartOfDay(ZoneId.systemDefault()).toInstant());
+		dateChooser.setDate(date);
 
 		txtKapacitet = new JTextField(20);
 		txtCena = new JTextField(20);
 		txtAPopust = new JTextField(20);
-		btnChoose = new JButton("Odaberi sliku");
 		txtPutanjaDoSlike = new JTextField(20);
+		btnChoose = new JButton("Odaberi sliku");
 
 		btnChoose.addActionListener(new ActionListener() {
 			@Override
@@ -99,20 +104,19 @@ public class AranzmaniCreate extends JDialog {
 			}
 		});
 
-		btnKreiraj = new JButton("Kreiraj");
+		btnKreiraj = new JButton("Izmeni");
 		btnOdustani = new JButton("Odustani");
 
 		btnOdustani.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				clearInputs();
 				dispose();
 			}
 		});
 
 		addWindowListener(new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent e) {
-				clearInputs();
+				dispose();
 			}
 		});
 
@@ -123,10 +127,10 @@ public class AranzmaniCreate extends JDialog {
 			}
 			if (validation == 2) {
 				JOptionPane.showMessageDialog(this, "Niste popunili sva polja!");
-			}else if(validation == 4) {
-				JOptionPane.showMessageDialog(this, "Niste uneli datum kako treba!");
 			}
-			else if (validation == 6) {
+			if (validation == 3) {
+				JOptionPane.showMessageDialog(this, "Niste uneli broj putnika kako treba!");
+			} else if (validation == 6) {
 				JOptionPane.showMessageDialog(this, "Uspesno ste popunili sva polja!");
 				String tipSmestaja = cmbTipSmestaja.getSelectedItem().toString();
 
@@ -160,13 +164,12 @@ public class AranzmaniCreate extends JDialog {
 				cena = Double.parseDouble(txtCena.getText());
 				sajamskiPopust = Integer.parseInt(txtAPopust.getText());
 				putanjaDoSlike = txtPutanjaDoSlike.getText();
-
-				id = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
-				noviAranzman = new Aranzman(id, UpravljanjeKorisnicima.prijavljenaOsoba, aranzmanEnum, smestajEnum,
-						localDate, kapacitet, cena, sajamskiPopust, putanjaDoSlike, true);
-				UpravljanjeAranzmanima.dodajAranzman(noviAranzman);
-				AranzmaniPanel.addAranzmanCard(aranzmanPanel, noviAranzman);
-				clearInputs();
+				aranzman = new Aranzman(UpravljanjeAranzmanima.currentAranzman.getId(),
+						UpravljanjeKorisnicima.prijavljenaOsoba, aranzmanEnum, smestajEnum, localDate, kapacitet, cena,
+						sajamskiPopust, putanjaDoSlike, true);
+				UpravljanjeAranzmanima.editAranzman(aranzman);
+				AranzmanCard.selectedCard.refreshCard(aranzman);
+				UpravljanjeAranzmanima.currentAranzman = aranzman;
 				dispose();
 			}
 		});
@@ -229,31 +232,58 @@ public class AranzmaniCreate extends JDialog {
 		pack();
 	}
 
-	private void clearInputs() {
-		txtKapacitet.setText("");
-		txtCena.setText("");
-		txtAPopust.setText("");
-		dateChooser.setDate(null);
-		txtPutanjaDoSlike.setText("");
+	void setDefaultValues() {
+		if (aranzman != null) {
+			txtKapacitet.setText(Integer.toString(aranzman.getKapacitet()));
+			txtCena.setText(Double.toString(aranzman.getCenaPoDanuPoOsobi()));
+			txtAPopust.setText(Integer.toString(aranzman.getSajamskiPopust()));
+			txtPutanjaDoSlike.setText(aranzman.getPutanjaDoSlike());
+
+			// Postavljanje vrednosti cmbTipAranzmana
+			if (aranzman.getTipAranzmana() != null) {
+				switch (aranzman.getTipAranzmana()) {
+				case Letovanje:
+					cmbTipAranzmana.setSelectedItem("Letovanje");
+					break;
+				case Zimovanje:
+					cmbTipAranzmana.setSelectedItem("Zimovanje");
+					break;
+				case EvropskiGradovi:
+					cmbTipAranzmana.setSelectedItem("Evropski gradovi");
+					break;
+				case DalekaPutovanja:
+					cmbTipAranzmana.setSelectedItem("Daleka putovanja");
+					break;
+				case FirstMinute:
+					cmbTipAranzmana.setSelectedItem("First minute");
+					break;
+				case LastMinute:
+					cmbTipAranzmana.setSelectedItem("Last minute");
+					break;
+				case PutovanjaUtokuPraznika:
+					cmbTipAranzmana.setSelectedItem("Putovanja u toku praznika");
+					break;
+				default:
+					break;
+				}
+			}
+		}
 	}
 
 	private int validateFields() {
 		String kapacitet = txtKapacitet.getText();
 		String cena = txtCena.getText();
 		String popust = txtAPopust.getText();
-		Date datum = dateChooser.getDate();
-		LocalDate localDate = datum.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		if (Integer.parseInt(popust) >= 100) {
-			return 1;
-		}
+
 		if (kapacitet.isEmpty() || cena.isEmpty() || popust.isEmpty() || txtPutanjaDoSlike.getText().isEmpty()) {
 			return 2; // One or more fields are empty
 		}
+
+		if (0 < Integer.parseInt(popust) && Integer.parseInt(popust) >= 100) {
+			return 1;
+		}
 		if (Integer.parseInt(kapacitet) <= 0) {
 			return 3;
-		}
-		if(LocalDate.now().isAfter(localDate)) {
-			return 4;
 		}
 
 		return 6; // All fields are valid

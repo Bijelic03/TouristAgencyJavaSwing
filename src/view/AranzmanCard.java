@@ -20,7 +20,7 @@ public class AranzmanCard extends JPanel {
 	private JLabel cenaLabel;
 	private JLabel popustLabel;
 	private JLabel slikaLabel; // Dodana komponenta za prikaz slike
-
+	private String tipAranzmana;
 	public static AranzmanCard selectedCard;
 	private Border defaultBorder;
 	private Border selectedBorder;
@@ -36,39 +36,69 @@ public class AranzmanCard extends JPanel {
 			parent.repaint();
 		}
 	}
-	
-	
-	/*public void refreshCard() {
+
+	public void refreshCard(Aranzman aranzman) {
 		// Ažurirajte sve labele kartice na osnovu trenutnog aranžmana
-		Aranzman aranzman = UpravljanjeAranzmanima.currentAranzman;
+		System.out.println(aranzman.getSajamskiPopust());
 		idLabel.setText("ID: " + aranzman.getId());
 		agentLabel.setText(
 				"Agent: " + aranzman.getTuristickiAgent().getIme() + " " + aranzman.getTuristickiAgent().getPrezime());
-		aranzmanLabel.setText("Tip aranzmana: " + aranzman.getTipAranzmana());
+		if (aranzman.getTipAranzmana() != null) {
+
+			switch (aranzman.getTipAranzmana()) {
+			case Letovanje:
+				tipAranzmana = "Letovanje";
+				break;
+			case Zimovanje:
+				tipAranzmana = "Zimovanje";
+				break;
+			case EvropskiGradovi:
+				tipAranzmana = "Evropski gradovi";
+				break;
+			case DalekaPutovanja:
+				tipAranzmana = "Daleka putovanja";
+				break;
+			case FirstMinute:
+				tipAranzmana = "First minute";
+				break;
+			case LastMinute:
+				tipAranzmana = "Last minute";
+				break;
+			case PutovanjaUtokuPraznika:
+				tipAranzmana = "Putovanja u toku praznika";
+
+				break;
+			default:
+				break;
+			}
+		}
+		aranzmanLabel.setText("Tip aranzmana: " + tipAranzmana);
 		smestajLabel.setText("Tip smestaja: " + aranzman.getTipSmestaja());
 		datumLabel.setText("Datum: " + aranzman.getDostupanDatum());
 		kapacitetLabel.setText("Kapacitet: " + aranzman.getKapacitet());
 		cenaLabel.setText("Cena: " + aranzman.getCenaPoDanuPoOsobi());
 		popustLabel.setText("Popust: " + aranzman.getSajamskiPopust() + "%");
 		try {
-			String putanjaDoSlike = aranzman.getPutanjaDoSlike();
-			ImageIcon imageIcon = new ImageIcon(getClass().getResource(putanjaDoSlike));
-			Image image = imageIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-			System.out.println(aranzman.getPutanjaDoSlike());
-			slikaLabel.setIcon(new ImageIcon(image));
+			ImageIcon imgThisImg = new ImageIcon(aranzman.getPutanjaDoSlike());
+			Image image = imgThisImg.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+			ImageIcon scaledImageIcon = new ImageIcon(image);
+			slikaLabel = new JLabel(scaledImageIcon);
+			slikaLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+			add(slikaLabel, BorderLayout.EAST);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}*/
+	}
 
 	public AranzmanCard(Aranzman aranzman) {
-		setLayout(new BorderLayout()); 
-		setBackground(Color.WHITE); 
+		setLayout(new BorderLayout());
+		setBackground(Color.WHITE);
 
 		JPanel textPanel = new JPanel(new GridLayout(9, 1));
-		textPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); 
-																			
-		textPanel.setBackground(Color.WHITE); 
+		textPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+		textPanel.setBackground(Color.WHITE);
 
 		idLabel = new JLabel("ID: " + aranzman.getId());
 		textPanel.add(idLabel);
@@ -102,9 +132,9 @@ public class AranzmanCard extends JPanel {
 			ImageIcon imgThisImg = new ImageIcon(aranzman.getPutanjaDoSlike());
 			Image image = imgThisImg.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
 			ImageIcon scaledImageIcon = new ImageIcon(image);
-			slikaLabel = new JLabel(scaledImageIcon); 
+			slikaLabel = new JLabel(scaledImageIcon);
 			slikaLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-																				
+
 			add(slikaLabel, BorderLayout.EAST);
 		} catch (Exception e) {
 			e.printStackTrace();

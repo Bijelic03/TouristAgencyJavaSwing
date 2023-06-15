@@ -1,16 +1,9 @@
 package view;
 
-import java.awt.BorderLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
-import java.util.function.Function;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
 import model.Uloga;
 import service.CitanjeAranzmana;
 import service.UpravljanjeAranzmanima;
@@ -21,19 +14,14 @@ public class AranzmaniWindow extends JFrame {
 	private static final long serialVersionUID = -1393812183206771422L;
 
 	private JButton addAranzman = new JButton("Dodaj aranzman");
-
 	private JButton editAranzman = new JButton("Izmeni aranzman");
-
 	private JButton delAranzman = new JButton("Obrisi aranzman");
-
 	private JButton rezervisiAranzman = new JButton("Rezervisi aranzman");
-
 	private JButton exit = new JButton("Zatvori");
-
 	private JPanel southButtons = new JPanel();
-
 	private AranzmaniCreate aranzmaniCreate = null;
-	
+	private AranzmaniEdit aranzmaniEdit = null;
+
 	public AranzmaniWindow() {
 		setTitle("Aranzmani");
 		setSize(1000, 700);
@@ -44,7 +32,6 @@ public class AranzmaniWindow extends JFrame {
 	}
 
 	private void adminButtons() {
-
 
 	}
 
@@ -57,12 +44,12 @@ public class AranzmaniWindow extends JFrame {
 		southButtons.add(editAranzman);
 		southButtons.add(delAranzman);
 		southButtons.add(addAranzman);
-
 	}
 
 	private void initGUI() {
 		AranzmaniPanel aranzmanPanel = new AranzmaniPanel(CitanjeAranzmana.ucitajAranzmane());
-		add(aranzmanPanel, BorderLayout.NORTH);
+		JScrollPane scrollPane = new JScrollPane(aranzmanPanel);
+		add(scrollPane, BorderLayout.CENTER);
 
 		if (UpravljanjeKorisnicima.prijavljenaOsoba.getUloga() == Uloga.Turista) {
 			turistaButtons();
@@ -77,7 +64,6 @@ public class AranzmaniWindow extends JFrame {
 		}
 
 		southButtons.add(exit);
-
 		add(southButtons, BorderLayout.SOUTH);
 
 		exit.addActionListener(new ActionListener() {
@@ -90,29 +76,35 @@ public class AranzmaniWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (aranzmaniCreate == null) {
 					aranzmaniCreate = new AranzmaniCreate(aranzmanPanel);
-
 				}
 				aranzmaniCreate.setVisible(true);
-				
 			}
 		});
 
 		editAranzman.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (UpravljanjeAranzmanima.currentAranzman != null) {
+					if(UpravljanjeAranzmanima.moguceIzmena(UpravljanjeAranzmanima.currentAranzman.getId())) {
+						aranzmaniEdit = new AranzmaniEdit(aranzmanPanel);
+						aranzmaniEdit.setVisible(true);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Nije moguće izmeniti ovaj aranzman (postoje kreirane rezervacije)", "Upozorenje",
+								JOptionPane.WARNING_MESSAGE);
+					}
+		
 
+				}
 			}
 		});
 
 		delAranzman.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
 				int choice = JOptionPane.showConfirmDialog(null, "Da li ste sigurni?", "", JOptionPane.YES_NO_OPTION);
 				if (choice == JOptionPane.YES_OPTION) {
 					UpravljanjeAranzmanima.disableAranzman();
 				}
 			}
-
 		});
-
 	}
 }
