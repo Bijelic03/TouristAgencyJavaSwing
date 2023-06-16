@@ -1,4 +1,5 @@
 package view;
+
 import javax.swing.*;
 
 import service.UpravljanjeKorisnicima;
@@ -12,9 +13,10 @@ public class TuristaWindow extends JFrame {
     private JButton aranzmaniButton;
     private JButton odjavaButton;
     private JButton exitButton;
+    private JTextField potroseniNovacField;
 
     public TuristaWindow() {
-        setTitle("AdminWindow");
+        setTitle("Turista");
         setSize(400, 300);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -31,14 +33,23 @@ public class TuristaWindow extends JFrame {
         JPanel sidePanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
         odjavaButton = new JButton("Odjava");
         exitButton = new JButton("Exit");
-        
-        // Prilagođavanje veličine dugmadi
+
+        JLabel potroseniNovacLabel = new JLabel("Potrošeno novca u dinarima:");
+        sidePanel.add(potroseniNovacLabel);
+
+        potroseniNovacField = new JTextField();
+        potroseniNovacField.setEditable(false);
+        potroseniNovacField.setHorizontalAlignment(JTextField.RIGHT);
+        potroseniNovacField.setText(String.valueOf(UpravljanjeKorisnicima.potrosenNovacTurista(UpravljanjeKorisnicima.prijavljenaOsoba)));
+
+        sidePanel.add(potroseniNovacField);
+
         Dimension buttonSize = new Dimension(80, 30);
         rezervacijeButton.setPreferredSize(buttonSize);
         aranzmaniButton.setPreferredSize(buttonSize);
         odjavaButton.setPreferredSize(buttonSize);
         exitButton.setPreferredSize(buttonSize);
-        
+
         sidePanel.add(odjavaButton);
         sidePanel.add(exitButton);
 
@@ -46,8 +57,6 @@ public class TuristaWindow extends JFrame {
         mainPanel.add(sidePanel, BorderLayout.SOUTH);
 
         add(mainPanel);
-
-
 
         rezervacijeButton.addActionListener(new ActionListener() {
             @Override
@@ -82,6 +91,4 @@ public class TuristaWindow extends JFrame {
             }
         });
     }
-
-
 }

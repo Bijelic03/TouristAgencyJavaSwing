@@ -144,11 +144,13 @@ public class UpravljanjeAranzmanima {
 
 	public static boolean moguceIzmena(Long idAranzmana) {
 		for (Rezervacija rezervacija : CitanjeRezervacija.rezervacije) {
-			return (rezervacija.getAranzman().getId() == idAranzmana
-					&& rezervacija.getStatusRezervacije() == StatusRezervacije.Kreirana);
+			if(rezervacija.getAranzman().getId() == idAranzmana
+					&& rezervacija.getStatusRezervacije() == StatusRezervacije.Kreirana) {
+				return false;
+			}
 
 		}
-		return false;
+		return true;
 	}
 
 	public static void izmeniKapacitetAranzmana(Long id, int brojPutnika) {

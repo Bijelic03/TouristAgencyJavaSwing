@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import model.Osoba;
+import model.Rezervacija;
+import model.StatusRezervacije;
 import model.Uloga;
 
 public class UpravljanjeKorisnicima {
@@ -249,5 +251,17 @@ public class UpravljanjeKorisnicima {
 		} catch (IOException e) {
 			System.out.println("Greska prilikom izmene korisnika: " + e.getMessage());
 		}
+	}
+
+	public static double potrosenNovacTurista(Osoba turista) {
+		double sum = 0;
+		for (Rezervacija rezervacija : CitanjeRezervacija.ucitajRezervacije()) {
+			if (rezervacija.getStatusRezervacije() == StatusRezervacije.Zavrsena) {
+				if (rezervacija.getTurista() == turista) {
+					sum += rezervacija.getCena();
+				}
+			}
+		}
+		return sum;
 	}
 }

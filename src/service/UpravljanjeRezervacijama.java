@@ -6,9 +6,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import model.Osoba;
 import model.Rezervacija;
 import model.StatusRezervacije;
 
@@ -22,20 +22,21 @@ public class UpravljanjeRezervacijama {
 
 		}
 
-		String[][] podaci = new String[brojAktivnihRezervacija][9];
+		String[][] podaci = new String[brojAktivnihRezervacija][10];
 		int indeks = 0;
 
 		for (Rezervacija rezervacija : CitanjeRezervacija.ucitajRezervacije()) {
 
 			podaci[indeks][0] = String.valueOf(rezervacija.getId());
-			podaci[indeks][1] = String.valueOf(rezervacija.getAranzman().getTuristickiAgent().getImePrezime());
-			podaci[indeks][2] = String.valueOf(rezervacija.getAranzman().getId());
-			podaci[indeks][3] = String.valueOf(rezervacija.getBrojPutnika());
-			podaci[indeks][4] = String.valueOf(rezervacija.getCena());
-			podaci[indeks][5] = rezervacija.getAranzman().getDostupanDatum().format(DateTimeFormatter.ofPattern("d.M.y"));
-			podaci[indeks][6] = String.valueOf(rezervacija.getBrojDana());
-			podaci[indeks][7] = rezervacija.getDatumkreiranja().format(DateTimeFormatter.ofPattern("d.M.y"));
-			podaci[indeks][8] = rezervacija.getStatusRezervacije().toString();
+			podaci[indeks][1] = String.valueOf(rezervacija.getTurista().getImePrezime());
+			podaci[indeks][2] = String.valueOf(rezervacija.getAranzman().getTuristickiAgent().getImePrezime());
+			podaci[indeks][3] = String.valueOf(rezervacija.getAranzman().getId());
+			podaci[indeks][4] = String.valueOf(rezervacija.getBrojPutnika());
+			podaci[indeks][5] = String.valueOf(rezervacija.getCena());
+			podaci[indeks][6] = rezervacija.getAranzman().getDostupanDatum().format(DateTimeFormatter.ofPattern("d.M.y"));
+			podaci[indeks][7] = String.valueOf(rezervacija.getBrojDana());
+			podaci[indeks][8] = rezervacija.getDatumkreiranja().format(DateTimeFormatter.ofPattern("d.M.y"));
+			podaci[indeks][9] = rezervacija.getStatusRezervacije().toString();
 			indeks++;
 
 		}
@@ -84,14 +85,30 @@ public class UpravljanjeRezervacijama {
 				rezervacijeFile.delete();
 				tempFile.renameTo(rezervacijeFile);
 
-				System.out.println("Rezervacija je stornirana.");
+				System.out.println("Status rezervacije je izmenjen.");
 			} catch (IOException e) {
-				System.out.println("Greska prilikom storniranja rezervacije: " + e.getMessage());
+				System.out.println("Greska prilikom izmene statusa rezervacije: " + e.getMessage());
 			}
 		} else {
 			System.out.println("Rezervacija sa ID-jem " + id + " ne postoji.");
 		}
 	}
+	   public static void kreirajRezervaciju(long id, long idTuriste, long idAranzman, int brojPutnika, int brojDana, double cena, StatusRezervacije statusRezervacije) {
+	        try {
+	            File rezervacijeFile = new File("podaci/rezervacije.txt");
+	            BufferedWriter writer = new BufferedWriter(new FileWriter(rezervacijeFile, true));
+	            LocalDate datumKreiranja = LocalDate.now();
+	            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.M.y");
+	            String datumKreiranjaStr = datumKreiranja.format(formatter);
+	            writer.write(
+	                    id + "|" + idTuriste + "|" + idAranzman + "|" + brojPutnika + "|" + cena + "|" + datumKreiranjaStr + "|" + brojDana + "|" + statusRezervacije);
+	            writer.newLine();
+	            writer.close();
 
+	            CitanjeRezervacija.ucitajRezervacije();
+	        } catch (IOException e) {
+	            System.out.println("Greska prilikom upisivanja rezervacije u datoteku: " + e.getMessage());
+	        }
+	    }
+	}
 
-}

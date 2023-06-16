@@ -166,8 +166,8 @@ public class AranzmaniCreate extends JDialog {
 						localDate, kapacitet, cena, sajamskiPopust, putanjaDoSlike, true);
 				UpravljanjeAranzmanima.dodajAranzman(noviAranzman);
 				AranzmaniPanel.addAranzmanCard(aranzmanPanel, noviAranzman);
-				clearInputs();
 				dispose();
+				clearInputs();
 			}
 		});
 

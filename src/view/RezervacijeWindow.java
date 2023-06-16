@@ -40,7 +40,7 @@ public class RezervacijeWindow extends JFrame {
 
 	private Edit edit;
 
-	private String[] rezervacijeColumnNames = { "Id", "Agent", "Id aranzmana", "Broj putnika", "Cena", "Datum polaska",
+	private String[] rezervacijeColumnNames = { "Id","Kupac", "Agent", "Id aranzmana", "Broj putnika", "Cena", "Datum polaska",
 			"Broj dana", "Datum kreiranja rezervacije", "Status" };
 
 	public RezervacijeWindow() {
@@ -124,7 +124,8 @@ public class RezervacijeWindow extends JFrame {
 										StatusRezervacije.Neuspesna);
 								UpravljanjeAranzmanima.izmeniKapacitetAranzmana(
 										selectedRezervacija.getAranzman().getId(),
-										-selectedRezervacija.getBrojPutnika());
+										selectedRezervacija.getBrojPutnika());
+								UpravljanjeKorisnicima.potrosenNovacTurista(null);
 
 							}
 						}
@@ -158,6 +159,12 @@ public class RezervacijeWindow extends JFrame {
 
 						}
 					}
+					else {
+						JOptionPane.showMessageDialog(null, "Nije moguće otkazati ovu rezervaciju", "Upozorenje",
+								JOptionPane.WARNING_MESSAGE);
+					}
+					
+					
 				}
 			}
 		});
@@ -165,12 +172,21 @@ public class RezervacijeWindow extends JFrame {
 		odobri.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (rezervacijeTable.selectedRow != -1) {
+					long selectedId = rezervacijeTable.getIdValueFromRow();
+					Rezervacija selectedRezervacija = UpravljanjeRezervacijama.getRezervacijaById(selectedId);
+					if (selectedRezervacija.getStatusRezervacije() == StatusRezervacije.Kreirana) {
+						int choice = JOptionPane.showConfirmDialog(null, "Da li ste sigurni?", "",
+								JOptionPane.YES_NO_OPTION);
+						if (choice == JOptionPane.YES_OPTION) {
+							UpravljanjeRezervacijama.izmeniStatusRezervacije(selectedId, StatusRezervacije.Zavrsena);
 
-					int choice = JOptionPane.showConfirmDialog(null, "Da li ste sigurni?", "",
-							JOptionPane.YES_NO_OPTION);
-					if (choice == JOptionPane.YES_OPTION) {
-						UpravljanjeKorisnicima.disableKorisnik(rezervacijeTable.getIdValueFromRow());
-						rezervacijeTable.removeSelectedRow();
+							rezervacijeTable.refreshTableData(UpravljanjeRezervacijama.getPodaciORezervacijamaTabela());
+
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Nije moguće odobriti ovu rezervaciju", "Upozorenje",
+								JOptionPane.WARNING_MESSAGE);
 					}
 
 				}

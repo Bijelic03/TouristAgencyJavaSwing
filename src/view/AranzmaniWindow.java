@@ -21,6 +21,7 @@ public class AranzmaniWindow extends JFrame {
 	private JPanel southButtons = new JPanel();
 	private AranzmaniCreate aranzmaniCreate = null;
 	private AranzmaniEdit aranzmaniEdit = null;
+	private RezervacijaCreate rezervacijaCreate = null;
 
 	public AranzmaniWindow() {
 		setTitle("Aranzmani");
@@ -68,6 +69,7 @@ public class AranzmaniWindow extends JFrame {
 
 		exit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				UpravljanjeAranzmanima.currentAranzman = null;
 				dispose();
 			}
 		});
@@ -84,15 +86,14 @@ public class AranzmaniWindow extends JFrame {
 		editAranzman.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (UpravljanjeAranzmanima.currentAranzman != null) {
-					if(UpravljanjeAranzmanima.moguceIzmena(UpravljanjeAranzmanima.currentAranzman.getId())) {
+					if (UpravljanjeAranzmanima.moguceIzmena(UpravljanjeAranzmanima.currentAranzman.getId())) {
 						aranzmaniEdit = new AranzmaniEdit(aranzmanPanel);
 						aranzmaniEdit.setVisible(true);
-					}
-					else {
-						JOptionPane.showMessageDialog(null, "Nije moguće izmeniti ovaj aranzman (postoje kreirane rezervacije)", "Upozorenje",
+					} else {
+						JOptionPane.showMessageDialog(null,
+								"Nije moguće izmeniti ovaj aranzman (postoje kreirane rezervacije)", "Upozorenje",
 								JOptionPane.WARNING_MESSAGE);
 					}
-		
 
 				}
 			}
@@ -100,9 +101,27 @@ public class AranzmaniWindow extends JFrame {
 
 		delAranzman.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int choice = JOptionPane.showConfirmDialog(null, "Da li ste sigurni?", "", JOptionPane.YES_NO_OPTION);
-				if (choice == JOptionPane.YES_OPTION) {
-					UpravljanjeAranzmanima.disableAranzman();
+				if (UpravljanjeAranzmanima.currentAranzman != null) {
+
+					int choice = JOptionPane.showConfirmDialog(null, "Da li ste sigurni?", "",
+							JOptionPane.YES_NO_OPTION);
+					if (choice == JOptionPane.YES_OPTION) {
+						UpravljanjeAranzmanima.disableAranzman();
+					}
+				}
+			}
+		});
+
+		rezervisiAranzman.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (UpravljanjeAranzmanima.currentAranzman != null) {
+					if (UpravljanjeAranzmanima.currentAranzman.getKapacitet() == 0) {
+						JOptionPane.showMessageDialog(null, "Popunjena su sva mesta!", "Upozorenje",
+								JOptionPane.WARNING_MESSAGE);
+					} else {
+						rezervacijaCreate = new RezervacijaCreate();
+
+					}
 				}
 			}
 		});
