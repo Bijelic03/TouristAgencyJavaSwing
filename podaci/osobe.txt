@@ -1,3 +1,6 @@
-1683899734588344172|Dragan|Bijelic|060|1234|false|Adresa|dr|123|Administrator|true
+1683899734588344172|Dragan|Bijelic|060|1234|false|Adresa|dr|123456789|Administrator|true
 7153443054080770941|Marko|Rubezic|06034972|1234567894567|true|Save Kovacevica|marko|marko123|TuristickiAgent|true
-1141151032111353523|Filip|Ilic|064354687|6432498746783|true|Ruzveltova 161|filip|filip123|Turista|true
+1141151032111353523|Filip|Ilic|064354687|6432498746783|true|Ruzveltova 161|filip|filip123|Turista|false
+7217479789539576586|aleksandra|kotarlic|234345546776898900349053495|1234567891234|false|asdasdas|aleks|aleksandra1|Administrator|true
+5261750188436311542|vasa|kotarlic|0604632640|0609997809089|true|branka bajica|vasak|kotarlic123|Turista|true
+4990889818419642906|aaa|aaa|aaa|1234567890000|true|uuu|aaa|asdfghjkl123|Administrator|true

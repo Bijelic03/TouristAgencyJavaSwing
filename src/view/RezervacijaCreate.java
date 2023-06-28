@@ -56,7 +56,7 @@ public class RezervacijaCreate extends JDialog {
 		turistaMap = new HashMap<>();
 		if (UpravljanjeKorisnicima.prijavljenaOsoba.getUloga() == Uloga.TuristickiAgent) {
 			for (Osoba osoba : UpravljanjeKorisnicima.getKorisnici()) {
-				if (osoba.getUloga() == Uloga.Turista) {
+				if (osoba.getUloga() == Uloga.Turista && osoba.getAktivnost()) {
 					turistaComboBox.addItem(osoba.getImePrezime());
 					turistaMap.put(osoba.getImePrezime(), Long.toString(osoba.getId()));
 				}
@@ -117,6 +117,8 @@ public class RezervacijaCreate extends JDialog {
 
 						turistaId = UpravljanjeKorisnicima.prijavljenaOsoba.getId();
 					}
+					izracunajCenu();
+
 					UpravljanjeRezervacijama.kreirajRezervaciju(id, turistaId, aranzman.getId(),
 							Integer.parseInt(brojPutnikaField.getText()), Integer.parseInt(brojDanaField.getText()),
 							Double.parseDouble(cenaField.getText()), statusRezervacije);

@@ -110,5 +110,52 @@ public class UpravljanjeRezervacijama {
 	            System.out.println("Greska prilikom upisivanja rezervacije u datoteku: " + e.getMessage());
 	        }
 	    }
+	   
+	   public static void editRezervacija(Rezervacija rezervacija) {
+		    Rezervacija rezervacijaZaIzmenu = rezervacija;
+
+		    try {
+		        File rezervacijeFile = new File("podaci/rezervacije.txt");
+		        File tempFile = new File("podaci/rezervacije_temp.txt");
+
+		        BufferedReader reader = new BufferedReader(new FileReader(rezervacijeFile));
+		        BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+		        String line;
+		        int currentLine = 0;
+
+		        while ((line = reader.readLine()) != null) {
+		            String[] tokens = line.split("\\|");
+		            long currentId = Long.parseLong(tokens[0]);
+
+		            if (currentId == rezervacija.getId()) {
+		                // Izmena linije
+						String datum = rezervacijaZaIzmenu.getDatumkreiranja().getDayOfMonth() + "."
+								+ rezervacijaZaIzmenu.getDatumkreiranja().getMonthValue() + "."
+								+ rezervacijaZaIzmenu.getDatumkreiranja().getYear();
+		                String brojPutnika = String.valueOf(rezervacijaZaIzmenu.getBrojPutnika());
+		                line = rezervacijaZaIzmenu.getId() + "|" + rezervacijaZaIzmenu.getTurista().getId() + "|"
+		                        + rezervacijaZaIzmenu.getAranzman().getId() + "|" + brojPutnika + "|"
+		                        + rezervacijaZaIzmenu.getCena() + "|" + datum + "|"
+		                        + rezervacijaZaIzmenu.getBrojDana() + "|" + rezervacijaZaIzmenu.getStatusRezervacije();
+		            }
+		            writer.write(line);
+		            writer.newLine();
+		            currentLine++;
+		        }
+
+		        reader.close();
+		        writer.close();
+
+		        // Zamena originalnog fajla sa privremenim fajlom
+		        rezervacijeFile.delete();
+		        tempFile.renameTo(rezervacijeFile);
+
+		        System.out.println("Rezervacija je izmenjena.");
+		    } catch (IOException e) {
+		        System.out.println("Greska prilikom izmene rezervacije: " + e.getMessage());
+		    }
+		}
+
 	}
 

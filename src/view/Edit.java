@@ -109,7 +109,7 @@ public class Edit extends JDialog {
 		lblAdresa = new JLabel("Adresa:");
 		lblUloga = new JLabel("Uloga:");
 		lblSifra = new JLabel("Šifra:");
-				
+
 		txtUsername = new JTextField(20);
 		txtUsername = new JTextField(20);
 		txtIme = new JTextField(20);
@@ -124,7 +124,6 @@ public class Edit extends JDialog {
 		txtJMBG.setEnabled(false);
 		cmbPol.setEnabled(false);
 
-		
 		btnSacuvaj = new JButton("Sačuvaj");
 		btnOdustani = new JButton("Odustani");
 
@@ -138,17 +137,17 @@ public class Edit extends JDialog {
 		});
 
 		btnSacuvaj.addActionListener(e -> {
-            int validation = validateFields();
+			int validation = validateFields();
 
-       	 if (validation == 2) {
-             JOptionPane.showMessageDialog(this, "Niste popunili sva polja!");
-         } else if (validation == 3) {
-             JOptionPane.showMessageDialog(this, "JMBG nije validan! Mora sadržavati tačno 13 cifara.");
-         } else if (validation == 4) {
-             JOptionPane.showMessageDialog(this, "Šifra je prekratka! Mora sadržavati najmanje 8 karaktera.");
-         } else if (validation == 5) {
-             JOptionPane.showMessageDialog(this, "Šifra ne sadrži broj!");
-         } else if (validateFields() == 6) {
+			if (validation == 2) {
+				JOptionPane.showMessageDialog(this, "Niste popunili sva polja!");
+			} else if (validation == 3) {
+				JOptionPane.showMessageDialog(this, "JMBG nije validan! Mora sadržavati tačno 13 cifara.");
+			} else if (validation == 4) {
+				JOptionPane.showMessageDialog(this, "Šifra je prekratka! Mora sadržavati najmanje 8 karaktera.");
+			} else if (validation == 5) {
+				JOptionPane.showMessageDialog(this, "Šifra ne sadrži broj!");
+			} else if (validateFields() == 6) {
 				String pol = cmbPol.getSelectedItem().toString();
 
 				if (pol.equals("Muški")) {
@@ -241,39 +240,33 @@ public class Edit extends JDialog {
 		pack();
 	}
 
-    private int validateFields() {
-        String username = txtUsername.getText();
-        String ime = txtIme.getText();
-        String prezime = txtPrezime.getText();
-        String brojTelefona = txtBrojTelefona.getText();
-        String jmbg = txtJMBG.getText();
-        String adresa = txtAdresa.getText();
-        String sifra = new String(txtSifra.getPassword());
+	private int validateFields() {
+		String username = txtUsername.getText();
+		String ime = txtIme.getText();
+		String prezime = txtPrezime.getText();
+		String brojTelefona = txtBrojTelefona.getText();
+		String jmbg = txtJMBG.getText();
+		String adresa = txtAdresa.getText();
+		String sifra = new String(txtSifra.getPassword());
 
-        if (username.isEmpty() || ime.isEmpty() || prezime.isEmpty() || brojTelefona.isEmpty() || jmbg.isEmpty()
-                || adresa.isEmpty() || sifra.isEmpty()) {
-            return 2; // One or more fields are empty
-        }
+		if (username.isEmpty() || ime.isEmpty() || prezime.isEmpty() || brojTelefona.isEmpty() || jmbg.isEmpty()
+				|| adresa.isEmpty() || sifra.isEmpty()) {
+			return 2; // One or more fields are empty
+		}
 
-        if (jmbg.length() != 13) {
-            return 3; // JMBG is not valid (must have exactly 13 digits)
-        }
+		if (jmbg.length() != 13) {
+			return 3; // JMBG is not valid (must have exactly 13 digits)
+		}
 
-        if (sifra.length() < 8) {
-            return 4; // Password is too short (must have at least 8 characters)
-        }
+		if (sifra.length() < 8) {
+			return 4; // Password is too short (must have at least 8 characters)
+		}
 
-        if (!sifra.matches(".*\\d.*")) {
-            return 5; // Password does not contain a number
-        }
+		if (!sifra.matches(".*\\d.*")) {
+			return 5; // Password does not contain a number
+		}
 
-        return 6; // All fields are valid
-    }
+		return 6; // All fields are valid
+	}
 
-
-	
-	
-	
-	
-	
 }

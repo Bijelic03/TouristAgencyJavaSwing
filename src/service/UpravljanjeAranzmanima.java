@@ -143,14 +143,46 @@ public class UpravljanjeAranzmanima {
 	}
 
 	public static boolean moguceIzmena(Long idAranzmana) {
-		for (Rezervacija rezervacija : CitanjeRezervacija.rezervacije) {
-			if(rezervacija.getAranzman().getId() == idAranzmana
+
+		for (Rezervacija rezervacija : CitanjeRezervacija.ucitajRezervacije()) {
+			System.out.println("ovde");
+
+			if (rezervacija.getAranzman().getId() == idAranzmana
 					&& rezervacija.getStatusRezervacije() == StatusRezervacije.Kreirana) {
 				return false;
 			}
 
 		}
 		return true;
+	}
+
+	public static String[][] getPodaciOAranzmanimaTabela() {
+		int aktivniAranzmani = 0;
+		CitanjeAranzmana.ucitajAranzmane();
+		for (Aranzman aranzman : CitanjeAranzmana.aranzmani) {
+			if (aranzman.getAktivnost()) {
+				aktivniAranzmani++;
+			}
+		}
+
+		String[][] podaci = new String[aktivniAranzmani][8];
+		int indeks = 0;
+
+		for (Aranzman aranzman : CitanjeAranzmana.aranzmani) {
+			if (aranzman.getAktivnost()) {
+				podaci[indeks][0] = String.valueOf(aranzman.getId());
+				podaci[indeks][1] = aranzman.getTuristickiAgent().getImePrezime();
+				podaci[indeks][2] = aranzman.getTipAranzmana().toString();
+				podaci[indeks][3] = aranzman.getTipSmestaja().toString();
+				podaci[indeks][4] = aranzman.getDostupanDatum().toString();
+				podaci[indeks][5] = String.valueOf(aranzman.getKapacitet());
+				podaci[indeks][6] = String.valueOf(aranzman.getCenaPoDanuPoOsobi());
+				podaci[indeks][7] = String.valueOf(aranzman.getSajamskiPopust()) + "%";
+				indeks++;
+			}
+		}
+
+		return podaci;
 	}
 
 	public static void izmeniKapacitetAranzmana(Long id, int brojPutnika) {

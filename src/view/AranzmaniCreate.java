@@ -123,9 +123,12 @@ public class AranzmaniCreate extends JDialog {
 			}
 			if (validation == 2) {
 				JOptionPane.showMessageDialog(this, "Niste popunili sva polja!");
-			}else if(validation == 4) {
+			} else if (validation == 4) {
 				JOptionPane.showMessageDialog(this, "Niste uneli datum kako treba!");
+			} else if (validation == 7) {
+				JOptionPane.showMessageDialog(this, "Cena nije uneta kako treba!");
 			}
+
 			else if (validation == 6) {
 				JOptionPane.showMessageDialog(this, "Uspesno ste popunili sva polja!");
 				String tipSmestaja = cmbTipSmestaja.getSelectedItem().toString();
@@ -252,8 +255,11 @@ public class AranzmaniCreate extends JDialog {
 		if (Integer.parseInt(kapacitet) <= 0) {
 			return 3;
 		}
-		if(LocalDate.now().isAfter(localDate)) {
+		if (LocalDate.now().isAfter(localDate)) {
 			return 4;
+		}
+		if (Double.parseDouble(cena) <= 0) {
+			return 7;
 		}
 
 		return 6; // All fields are valid

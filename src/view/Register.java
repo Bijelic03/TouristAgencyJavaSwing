@@ -98,7 +98,10 @@ public class Register extends JDialog {
                 JOptionPane.showMessageDialog(this, "JMBG nije validan! Mora sadržavati tačno 13 cifara.");
             } else if (validation == 4) {
                 JOptionPane.showMessageDialog(this, "Šifra je prekratka! Mora sadržavati najmanje 8 karaktera.");
-            } else if (validation == 5) {
+            }else if(validation == 1) {
+            	JOptionPane.showMessageDialog(this, "Šifre se ne poklapaju!");
+            }
+            else if (validation == 5) {
                 JOptionPane.showMessageDialog(this, "Šifra ne sadrži broj!");
             } else if (validation == 6) {
                 JOptionPane.showMessageDialog(this, "Uspesno ste popunili registraciju!");
@@ -241,6 +244,9 @@ public class Register extends JDialog {
         if (!sifra.equals(ponoviSifru)) {
             return 1; // Passwords don't match
         }
+        
+
+        
 
         if (username.isEmpty() || ime.isEmpty() || prezime.isEmpty() || brojTelefona.isEmpty() || jmbg.isEmpty()
                 || adresa.isEmpty() || sifra.isEmpty() || ponoviSifru.isEmpty()) {

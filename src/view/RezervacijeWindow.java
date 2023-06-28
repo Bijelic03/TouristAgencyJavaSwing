@@ -33,10 +33,15 @@ public class RezervacijeWindow extends JFrame {
 	private JButton odobri = new JButton("Odobri rezervaciju");
 
 	private JButton exit = new JButton("Zatvori");
+	
+	private JButton izmeni = new JButton("Izmeni");
+
 
 	private JPanel southButtons = new JPanel();
 
 	private Register register = null;
+	
+	private RezervacijaEdit rezervacijaEdit = null;
 
 	private Edit edit;
 
@@ -59,6 +64,7 @@ public class RezervacijeWindow extends JFrame {
 
 	private void turistaButtons() {
 		southButtons.add(otkazi);
+		southButtons.add(izmeni);
 	}
 
 	private void agentButtons() {
@@ -90,6 +96,23 @@ public class RezervacijeWindow extends JFrame {
 		exit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
+			}
+		});
+		
+		izmeni.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (rezervacijeTable.selectedRow != -1) {
+					long selectedId = rezervacijeTable.getIdValueFromRow();
+					Rezervacija selectedRezervacija = UpravljanjeRezervacijama.getRezervacijaById(selectedId);
+					if (selectedRezervacija.getStatusRezervacije() == StatusRezervacije.Kreirana) {
+						rezervacijaEdit = new RezervacijaEdit(selectedRezervacija, rezervacijeTable);
+						rezervacijaEdit.setVisible(true);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Nije moguće izmeniti broj putnika za ovu rezervaciju", "Upozorenje",
+								JOptionPane.WARNING_MESSAGE);
+					}
+				}
 			}
 		});
 
@@ -126,6 +149,7 @@ public class RezervacijeWindow extends JFrame {
 										selectedRezervacija.getAranzman().getId(),
 										selectedRezervacija.getBrojPutnika());
 								UpravljanjeKorisnicima.potrosenNovacTurista(null);
+								rezervacijeTable.refreshTableData(UpravljanjeRezervacijama.getPodaciORezervacijamaTabela());
 
 							}
 						}
