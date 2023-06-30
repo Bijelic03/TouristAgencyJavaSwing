@@ -25,7 +25,6 @@ public class UpravljanjeAranzmanima {
 		try {
 			String datum = aranzman.getDostupanDatum().getDayOfMonth() + "."
 					+ aranzman.getDostupanDatum().getMonthValue() + "." + aranzman.getDostupanDatum().getYear();
-			System.out.println(datum);
 			File aranzmaniFile = new File("podaci/aranzmani.txt");
 			BufferedWriter writer = new BufferedWriter(new FileWriter(aranzmaniFile, true));
 			writer.write(
@@ -81,7 +80,6 @@ public class UpravljanjeAranzmanima {
 			aranzmaniFile.delete();
 			tempFile.renameTo(aranzmaniFile);
 
-			System.out.println("Aranzman je izmenjen.");
 		} catch (IOException e) {
 			System.out.println("Greska prilikom izmene aranzmana: " + e.getMessage());
 		}
@@ -134,7 +132,6 @@ public class UpravljanjeAranzmanima {
 				aranzmaniFile.delete();
 				tempFile.renameTo(aranzmaniFile);
 
-				System.out.println("Aranzman je izmenjen.");
 				AranzmanCard.selectedCard.deleteCard();
 			} catch (IOException e) {
 				System.out.println("Greska prilikom izmene aranzmana: " + e.getMessage());
@@ -145,7 +142,6 @@ public class UpravljanjeAranzmanima {
 	public static boolean moguceIzmena(Long idAranzmana) {
 
 		for (Rezervacija rezervacija : CitanjeRezervacija.ucitajRezervacije()) {
-			System.out.println("ovde");
 
 			if (rezervacija.getAranzman().getId() == idAranzmana
 					&& rezervacija.getStatusRezervacije() == StatusRezervacije.Kreirana) {
@@ -223,7 +219,6 @@ public class UpravljanjeAranzmanima {
 			aranzmaniFile.delete();
 			tempFile.renameTo(aranzmaniFile);
 
-			System.out.println("Izmenjen kapacitet aranzmana.");
 		} catch (IOException e) {
 			System.out.println("Greska prilikom izmene aranzmana: " + e.getMessage());
 		}

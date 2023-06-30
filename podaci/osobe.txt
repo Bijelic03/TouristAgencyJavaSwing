@@ -3,4 +3,5 @@
 1141151032111353523|Filip|Ilic|064354687|6432498746783|true|Ruzveltova 161|filip|filip123|Turista|false
 7217479789539576586|aleksandra|kotarlic|234345546776898900349053495|1234567891234|false|asdasdas|aleks|aleksandra1|Administrator|true
 5261750188436311542|vasa|kotarlic|0604632640|0609997809089|true|branka bajica|vasak|kotarlic123|Turista|true
-4990889818419642906|aaa|aaa|aaa|1234567890000|true|uuu|aaa|asdfghjkl123|Administrator|true
+4990889818419642906|aaa|aaa|aaa|1234567890000|true|uuu|aaa|asdfghjkl123|TuristickiAgent|false
+1182555538233905052|Luka|Lukic|583585|1234567890123|true|aaa|korisnik|12345678|TuristickiAgent|true

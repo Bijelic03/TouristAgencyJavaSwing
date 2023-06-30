@@ -85,7 +85,6 @@ public class UpravljanjeRezervacijama {
 				rezervacijeFile.delete();
 				tempFile.renameTo(rezervacijeFile);
 
-				System.out.println("Status rezervacije je izmenjen.");
 			} catch (IOException e) {
 				System.out.println("Greska prilikom izmene statusa rezervacije: " + e.getMessage());
 			}
@@ -151,7 +150,6 @@ public class UpravljanjeRezervacijama {
 		        rezervacijeFile.delete();
 		        tempFile.renameTo(rezervacijeFile);
 
-		        System.out.println("Rezervacija je izmenjena.");
 		    } catch (IOException e) {
 		        System.out.println("Greska prilikom izmene rezervacije: " + e.getMessage());
 		    }

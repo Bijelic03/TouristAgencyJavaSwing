@@ -167,7 +167,6 @@ public class UpravljanjeKorisnicima {
 	public static void disableKorisnik(Long id) {
 		Osoba osobaZaIzmenu = getKorisnikById(id);
 		osobaZaIzmenu.setAktivnost(false);
-		System.out.println("aktivnost promenjena na false");
 		try {
 			File osobeFile = new File("podaci/osobe.txt");
 			File tempFile = new File("podaci/osobe_temp.txt");
@@ -202,7 +201,6 @@ public class UpravljanjeKorisnicima {
 			osobeFile.delete();
 			tempFile.renameTo(osobeFile);
 
-			System.out.println("Korisnik je izmenjen.");
 		} catch (IOException e) {
 			System.out.println("Greska prilikom izmene korisnika: " + e.getMessage());
 
@@ -225,7 +223,6 @@ public class UpravljanjeKorisnicima {
 			while ((line = reader.readLine()) != null) {
 				String[] tokens = line.split("\\|");
 				currentId = Long.parseLong(tokens[0]);
-				System.out.println(currentId);
 
 				if (currentId == osoba.getId()) {
 					// Izmena linije
@@ -247,7 +244,6 @@ public class UpravljanjeKorisnicima {
 			osobeFile.delete();
 			tempFile.renameTo(osobeFile);
 
-			System.out.println("Korisnik je izmenjen.");
 		} catch (IOException e) {
 			System.out.println("Greska prilikom izmene korisnika: " + e.getMessage());
 		}

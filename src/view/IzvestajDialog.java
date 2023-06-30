@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Dialog;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -37,7 +38,9 @@ public class IzvestajDialog extends JDialog {
 
         dateChooserOd = new JDateChooser();
         dateChooserDo = new JDateChooser();
-
+        dateChooserOd.setPreferredSize(new Dimension(200, 30));
+        dateChooserDo.setPreferredSize(new Dimension(200, 30));
+        
         btnKreiraj = new JButton("Kreiraj");
         btnOtkazi = new JButton("Otkaži");
 
